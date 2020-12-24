@@ -124,5 +124,8 @@
       }
     }
   },
-  "defaultProject": "qr-code-angular"
+  "defaultProject": "qr-code-angular",
+  "cli": {
+    "analytics": "76889312-315d-4f96-8474-13e3fdbdb7d8"
+  }
 }
