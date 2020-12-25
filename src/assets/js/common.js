@@ -29,7 +29,7 @@ function getCookieByName(name) {
 
 function checkUser() {
   if (!getCookieByName("loggedInUser")) {
-      window.location.href = "login.html";
+      window.location.href = "../login";
   } else {
       document.getElementById("loginUserEmail").textContent = getCookieByName("loggedInUser");
   }
