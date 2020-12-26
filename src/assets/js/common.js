@@ -22,17 +22,9 @@ function getCookieByName(name) {
   return match ? match[1] : null;
 }
 
-function isPageSecure() {
-  var securePages = [ 'loggedin', 'download'];
-  var isSecure = securePages.some(securePage => {
-    return window.location.href.includes(securePage);
-  });
-  return isSecure;
-}
-
 function checkUser() {
   var loggedInUser = getCookieByName("loggedInUser");
-  if (!loggedInUser && isPageSecure()) {
+  if (!loggedInUser) {
       window.location.href = "#/login";
   } 
 }

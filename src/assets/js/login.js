@@ -13,7 +13,7 @@ function onLoginButtonClicked() {
   firebase.auth().signInWithEmailAndPassword(userEmail, userPass)
     .then((response) => {
       setCookeeValue("loggedInUser", response.user.email, 2);  
-      window.location.href = "../loggedin"
+      window.location.href = "#/loggedin"
       getElement('btnLogin').disabled = false;
     })
     .catch((error) => {
