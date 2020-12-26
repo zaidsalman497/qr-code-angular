@@ -8,12 +8,12 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
 { path: '', component: HomeComponent },
 { path: 'home', component: HomeComponent },
-{ path: 'login', component: LoginComponent },
+{ path: 'login', component: LoginComponent,   },
 { path: 'signup', component: SignupComponent },
 { path: 'loggedin', component: LoggedinComponent }];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
