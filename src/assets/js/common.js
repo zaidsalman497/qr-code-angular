@@ -19,14 +19,16 @@ function setCookeeValue(name, value, expirydays) {
 function getCookieByName(name) {
   function escape(s) { return s.replace(/([.*+?\^$(){}|\[\]\/\\])/g, '\\$1'); }
   var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
-  return match ? match[1] : null;
+  return match ? decodeURI(match[1]) : null;
 }
 
 function checkUser() {
   var loggedInUser = getCookieByName("loggedInUser");
   if (!loggedInUser) {
       window.location.href = "#/login";
-  } 
+  } else {
+    getElement('loggedInUsertext').textContent = getCookieByName("loggedInUserName"); 
+  }
 }
 
 
