@@ -33,7 +33,7 @@ function isPageSecure() {
 function checkUser() {
   var loggedInUser = getCookieByName("loggedInUser");
   if (!loggedInUser && isPageSecure()) {
-      window.location.href = "../login";
+      window.location.href = "#/login";
   } 
 }
 
