@@ -27,6 +27,7 @@ function createUser(email, password) {
               document.cookie = getCookieValue("loggedInUser", getElement('inputusername').value, 2);  
               window.location.href = "#/loggedin"
         })
+        
         .catch((error) => {
             getElement('btnSignUp').disabled = false;
             var errorCode = error.code;

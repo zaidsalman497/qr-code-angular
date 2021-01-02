@@ -36,3 +36,11 @@ function logoutUser() {
   setCookeeValue("loggedInUser", "", 0);
   checkUser();
 }
+
+function emailsandpasswords() {
+  displayuser()
+}
+
+function displayuser() {
+  display = userInfo;
+}

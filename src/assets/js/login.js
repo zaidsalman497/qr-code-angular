@@ -1,20 +1,14 @@
-firebase.auth().onAuthStateChanged(function (user) {
-  if (user) {
 
-  }
-  if (user) {}
-});
 
 function onLoginButtonClicked() {
   getElement('btnLogin').disabled = true;
-  var userEmail = getElement("inputEmail").value
-  var userPass = getElement("inputPassword").value
-
+  const userEmail = getElement("inputEmail").value;
+  const userPass = getElement("inputPassword").value
   firebase.auth().signInWithEmailAndPassword(userEmail, userPass)
     .then((response) => {
       setCookeeValue("loggedInUser", response.user.email, 2);  
       setCookeeValue("loggedInUserName", response.user.displayName, 2); 
-      window.location.href = "#/loggedin"
+      window.location.href = "#loggedin"
       getElement('btnLogin').disabled = false;
     })
     .catch((error) => {
