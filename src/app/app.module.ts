@@ -8,6 +8,8 @@ import { AppComponent } from './app.component';
 import { SignupComponent } from './signup/signup.component';
 import { LoggedinComponent } from './loggedin/loggedin.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
+import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { TopHeaderComponent } from './top-header/top-header.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { AdminLoginComponent } from './admin-login/admin-login.component';
     LoginComponent,
     SignupComponent,
     LoggedinComponent,
-    AdminLoginComponent
+    AdminLoginComponent,
+    AdminUsersComponent,
+    TopHeaderComponent
   ],
   imports: [
     BrowserModule,

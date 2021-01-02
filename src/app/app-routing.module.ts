@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AdminUsersComponent } from './admin-users/admin-users.component';
 
 const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -12,7 +13,8 @@ const routes: Routes = [
 { path: 'login', component: LoginComponent,   },
 { path: 'signup', component: SignupComponent },
 { path: 'loggedin', component: LoggedinComponent },
-{ path: 'admin-login', component: AdminLoginComponent }];
+{ path: 'admin-login', component: AdminLoginComponent },
+{ path: 'admin-users', component: AdminUsersComponent }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: true})],
