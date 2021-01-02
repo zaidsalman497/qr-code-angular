@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { addScript } from 'src/utils/add-script';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { addScript, removeScript } from 'src/utils/add-script';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
 
   constructor() { }
 
@@ -15,4 +15,9 @@ export class LoginComponent implements OnInit {
     addScript('firebase');
   }
 
+  ngOnDestroy(): void {
+    removeScript('login');
+    removeScript('firebase');
+  }
+ 
 }
