@@ -17,3 +17,15 @@
         font-size: 3.5rem;
       }
     }
+
+
+    .loggedin-user-img {
+      height: 55px;
+      margin-right: 11px;
+    }
+
+    .loggedin-user-img img {
+      width: 55px;
+      height: 55px;
+      border-radius: 50px;
+    }

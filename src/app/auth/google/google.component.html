@@ -1,8 +1,4 @@
 <div *ngIf="auth.user$ | async as user; else login">
-    <pre>
-      {{ user | json }}
-    </pre>
-    
     <hr>
     <input type="button" (click)="auth.signOut()" value="Sign Out" class="btn btn-default sign-in-google" style="margin-top:2px; margin-bottom:2px;">
 

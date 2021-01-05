@@ -28,6 +28,15 @@ function checkUser() {
       window.location.href = "#/login";
   } else {
     getElement('loggedInUsertext').textContent = getCookieByName("loggedInUserName"); 
+    var imgUrl = getCookieByName('loggedInUserImgUrl');
+    if(imgUrl) {
+      getElement('loggedinUserImg').style.display = 'block';
+      getElement('loggedinUserImg').src = unescape(imgUrl);
+    } else {
+      getElement('loggedinUserImg').style.display = 'none';
+    }
+    
+    
   }
 }
 

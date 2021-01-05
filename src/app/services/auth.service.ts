@@ -12,6 +12,8 @@ import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { User } from './user.model';
 
+declare var setCookeeValue: any;
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   user$: Observable<User | null | undefined>;
@@ -36,7 +38,11 @@ export class AuthService {
   async googleSignIn(): Promise<void> {
     const provider = new firebase.auth.GoogleAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
-    return this.updateUserData(credential.user as any);
+    const result = await this.updateUserData(credential.user as any);
+    setCookeeValue("loggedInUser", credential.user?.email, 2);
+    setCookeeValue("loggedInUserName", credential.user?.displayName, 2);
+    setCookeeValue("loggedInUserImgUrl", credential.user?.photoURL, 2);
+    this.router.navigate(['loggedin']);
   }
 
   async signOut(): Promise<boolean> {
