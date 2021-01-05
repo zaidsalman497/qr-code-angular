@@ -10,6 +10,11 @@ import { LoggedinComponent } from './loggedin/loggedin.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { TopHeaderComponent } from './top-header/top-header.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,11 @@ import { TopHeaderComponent } from './top-header/top-header.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
+    AngularFireStorageModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
