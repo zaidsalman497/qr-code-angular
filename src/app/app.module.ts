@@ -15,6 +15,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from 'src/environments/environment';
+import { GoogleComponent } from './auth/google/google.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { environment } from 'src/environments/environment';
     LoggedinComponent,
     AdminLoginComponent,
     AdminUsersComponent,
-    TopHeaderComponent
+    TopHeaderComponent,
+    GoogleComponent
   ],
   imports: [
     BrowserModule,

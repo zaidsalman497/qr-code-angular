@@ -1,0 +1,16 @@
+.sign-in-google {
+    background: url('/assets/img/google-icon.png') #f2f2f2;
+    background-position: 4px 3px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    padding-left: 41px;
+    color: #000;
+  }
+  .sign-in-google:hover {
+    background: url('/assets/img/google-icon.png') #e0e0e0;
+    background-position: 4px 3px;
+    background-repeat: no-repeat;
+    background-size: 32px 32px;
+    padding-left: 41px;
+    color: #000;
+  }

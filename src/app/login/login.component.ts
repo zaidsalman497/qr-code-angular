@@ -14,13 +14,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     addScript('login');
     addScript('firebase');
     addScript('google');
-    addScript('platform');
   }
 
   ngOnDestroy(): void {
     removeScript('login');
     removeScript('firebase');
     removeScript('google');
-    removeScript('platform');
   }
 }
