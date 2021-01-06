@@ -39,9 +39,9 @@ export class AuthService {
     const provider = new firebase.auth.GoogleAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
     const result = await this.updateUserData(credential.user as any);
-    setCookeeValue("loggedInUser", credential.user?.email, 2);
-    setCookeeValue("loggedInUserName", credential.user?.displayName, 2);
-    setCookeeValue("loggedInUserImgUrl", credential.user?.photoURL, 2);
+    setCookeeValue('loggedInUser', credential.user?.email, 2);
+    setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
+    setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
     this.router.navigate(['loggedin']);
   }
 
@@ -66,3 +66,5 @@ export class AuthService {
   }
 
 }
+
+
