@@ -6,6 +6,9 @@ import { HomeComponent } from './home/home.component';
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
+import { ChatComponent } from './chat/chat.component';
+import { AuthGuardService } from './services/auth-guard.service';
+import { ChatHomeComponent } from './chat-home/chat-home.component';
 
 const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -14,7 +17,9 @@ const routes: Routes = [
 { path: 'signup', component: SignupComponent },
 { path: 'loggedin', component: LoggedinComponent },
 { path: 'admin-login', component: AdminLoginComponent },
-{ path: 'admin-users', component: AdminUsersComponent }];
+{ path: 'admin-users', component: AdminUsersComponent },
+{ path: 'chat', component: ChatHomeComponent },
+{ path: 'chats/:id', component: ChatComponent, canActivate: [AuthGuardService] }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: true})],

@@ -17,6 +17,9 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from 'src/environments/environment';
 import { GoogleComponent } from './auth/google/google.component';
 import { TopLogggedinHeaderComponent } from './top-logggedin-header/top-logggedin-header.component';
+import { ChatComponent } from './chat/chat.component';
+import { FormsModule } from '@angular/forms';
+import { ChatHomeComponent } from './chat-home/chat-home.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,9 @@ import { TopLogggedinHeaderComponent } from './top-logggedin-header/top-logggedi
     AdminUsersComponent,
     TopHeaderComponent,
     GoogleComponent,
-    TopLogggedinHeaderComponent
+    TopLogggedinHeaderComponent,
+    ChatComponent,
+    ChatHomeComponent
   ],
   imports: [
     BrowserModule,
@@ -38,6 +43,7 @@ import { TopLogggedinHeaderComponent } from './top-logggedin-header/top-logggedi
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

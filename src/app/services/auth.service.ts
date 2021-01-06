@@ -9,14 +9,14 @@ import {
 } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { first, map, switchMap } from 'rxjs/operators';
 import { User } from './user.model';
 
 declare var setCookeeValue: any;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  user$: Observable<User | null | undefined>;
+  user$: Observable<User>;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -30,8 +30,13 @@ export class AuthService {
         } else {
           return of(null);
         }
-      })
+      }),
+      map(c => c as User)
     );
+  }
+
+  public getUser(): Promise<User> {
+    return this.user$.pipe(first()).toPromise();
   }
 
 
