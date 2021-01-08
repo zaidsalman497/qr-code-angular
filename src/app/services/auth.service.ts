@@ -52,6 +52,9 @@ export class AuthService {
 
   async signOut(): Promise<boolean> {
     await this.afAuth.signOut();
+    setCookeeValue('loggedInUser', '', 2);
+    setCookeeValue('loggedInUserName', '', 2);
+    setCookeeValue('loggedInUserImgUrl', '', 2);
     return this.router.navigate(['login']);
   }
 
