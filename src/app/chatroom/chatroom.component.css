@@ -1,0 +1,10 @@
+.create-chat-parent {
+
+    width: 100%;
+    margin: 5px;
+    text-align: center;
+}
+
+.create-chat-parent .btn-outline-primary { 
+    width: 100%;
+}

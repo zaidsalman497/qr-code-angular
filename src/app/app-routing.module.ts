@@ -11,6 +11,7 @@ import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { ChatComponent } from './chat/chat.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ChatHomeComponent } from './chat-home/chat-home.component';
+import { ChatCreateComponent } from './chat-create/chat-create.component';
 
 const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -22,8 +23,9 @@ const routes: Routes = [
 { path: 'admin-users', component: AdminUsersComponent },
 { path: 'chat', component: ChatHomeComponent },
 { path: 'chats/:id', component: ChatComponent, canActivate: [AuthGuardService] },
-{ path: 'joinchat', component: JoinChatsComponent, canActivate: [AuthGuardService]}
-{ path: 'chatroom', component: ChatroomComponent, canActivate: [AuthGuardService]}];
+{ path: 'joinchat', component: JoinChatsComponent, canActivate: [AuthGuardService]},
+{ path: 'chatroom', component: ChatroomComponent, canActivate: [AuthGuardService]},
+{ path: 'create-chat', component: ChatCreateComponent, canActivate: [AuthGuardService]}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: true})],

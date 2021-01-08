@@ -53,11 +53,13 @@ export class ChatService {
     );
   }
 
-  public async create(): Promise<boolean> {
+  public async create(name?: string, iconPath?: string): Promise<boolean> {
     const { uid } = await this.auth.getUser();
 
     const data = {
       uid,
+      name,
+      iconPath,
       createdAt: Date.now(),
       count: 0,
       messages: []

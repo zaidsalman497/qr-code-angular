@@ -1,0 +1,24 @@
+<app-top-logggedin-header></app-top-logggedin-header>
+
+<form class="form-signin">
+    
+    <h1 class="h3 mb-3 font-weight-normal">Create chat room</h1>
+    <label for="inputName" class="sr-only">Name</label>
+    <table> 
+        <tr> 
+            <td>
+                <input type="text"  class="form-control" placeholder="Name" required="" autofocus="" [(ngModel)]="chatRoomName" [ngModelOptions]="{standalone: true}" >
+            </td>
+            <td>
+                <app-select-img></app-select-img>
+            </td>
+        </tr>
+    </table>
+   
+
+  
+      
+    <br/>
+    <button class="btn btn-lg btn-primary btn-block" type="button" id="btnCreateChat" (click)="createChat()">Create Chat</button>
+    <p class="lead" id="status"> </p>
+  </form>

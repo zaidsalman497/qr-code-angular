@@ -22,6 +22,8 @@ import { FormsModule } from '@angular/forms';
 import { ChatHomeComponent } from './chat-home/chat-home.component';
 import { JoinChatsComponent } from './join-chats/join-chats.component';
 import { ChatroomComponent } from './chatroom/chatroom.component';
+import { ChatCreateComponent } from './chat-create/chat-create.component';
+import { SelectImgComponent } from './utils/select-img/select-img.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { ChatroomComponent } from './chatroom/chatroom.component';
     ChatComponent,
     ChatHomeComponent,
     JoinChatsComponent,
-    ChatroomComponent
+    ChatroomComponent,
+    ChatCreateComponent,
+    SelectImgComponent
   ],
   imports: [
     BrowserModule,

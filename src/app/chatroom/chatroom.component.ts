@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-chatroom',
@@ -7,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ChatroomComponent implements OnInit {
 
-  constructor() { }
+  public userChats$!: Observable<any>;
+  constructor(public auth: AuthService, public cs: ChatService) {}
 
   ngOnInit(): void {
+    this.userChats$ = this.cs.getUserChats();
   }
 
 }
