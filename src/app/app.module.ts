@@ -21,6 +21,7 @@ import { ChatComponent } from './chat/chat.component';
 import { FormsModule } from '@angular/forms';
 import { ChatHomeComponent } from './chat-home/chat-home.component';
 import { JoinChatsComponent } from './join-chats/join-chats.component';
+import { ChatroomComponent } from './chatroom/chatroom.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { JoinChatsComponent } from './join-chats/join-chats.component';
     TopLogggedinHeaderComponent,
     ChatComponent,
     ChatHomeComponent,
-    JoinChatsComponent
+    JoinChatsComponent,
+    ChatroomComponent
   ],
   imports: [
     BrowserModule,
