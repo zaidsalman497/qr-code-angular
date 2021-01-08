@@ -1,10 +1,15 @@
+import { User } from './user.model';
+import { promise } from 'protractor';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from './auth.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import firebase from 'firebase';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable, combineLatest, of } from 'rxjs';
+import { AnyARecord } from 'dns';
+import { link } from 'fs';
+import { makeBindingParser } from '@angular/compiler';
 
 
 @Injectable({
@@ -120,5 +125,13 @@ export class ChatService {
         return chat;
       })
     );
+  }
+
+  public async enter(uids: any): Promise<void> {
+    if (uids === undefined) {
+      alert('id does not exites');
+    } else {
+      window.location.href = '/chats/' + uids;
+    }
   }
 }

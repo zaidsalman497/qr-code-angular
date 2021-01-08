@@ -12,7 +12,7 @@ export class ChatHomeComponent implements OnInit {
   public userChats$!: Observable<any>;
   constructor(public auth: AuthService, public cs: ChatService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userChats$ = this.cs.getUserChats();
   }
 

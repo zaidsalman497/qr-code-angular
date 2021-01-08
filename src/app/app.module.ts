@@ -20,6 +20,7 @@ import { TopLogggedinHeaderComponent } from './top-logggedin-header/top-logggedi
 import { ChatComponent } from './chat/chat.component';
 import { FormsModule } from '@angular/forms';
 import { ChatHomeComponent } from './chat-home/chat-home.component';
+import { JoinChatsComponent } from './join-chats/join-chats.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ChatHomeComponent } from './chat-home/chat-home.component';
     GoogleComponent,
     TopLogggedinHeaderComponent,
     ChatComponent,
-    ChatHomeComponent
+    ChatHomeComponent,
+    JoinChatsComponent
   ],
   imports: [
     BrowserModule,
