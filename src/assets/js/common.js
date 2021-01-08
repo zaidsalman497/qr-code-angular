@@ -44,7 +44,7 @@ function checkUser() {
 function logoutUser() {
   setCookeeValue("loggedInUser", "", 0);
   setCookeeValue("loggedInUserName", "", 0);
-  setCookeeValue('loggedInUserImgUrl', "", 2);
+  setCookeeValue('loggedInUserImgUrl', "", 0);
   checkUser();
 }
 
