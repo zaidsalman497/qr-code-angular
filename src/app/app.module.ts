@@ -24,6 +24,7 @@ import { JoinChatsComponent } from './join-chats/join-chats.component';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 import { ChatCreateComponent } from './chat-create/chat-create.component';
 import { SelectImgComponent } from './utils/select-img/select-img.component';
+import { CbChatComponent } from './cb-chat/cb-chat.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { SelectImgComponent } from './utils/select-img/select-img.component';
     JoinChatsComponent,
     ChatroomComponent,
     ChatCreateComponent,
-    SelectImgComponent
+    SelectImgComponent,
+    CbChatComponent
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,4 @@
+import { CbChatComponent } from './cb-chat/cb-chat.component';
 import { ChatroomComponent } from './chatroom/chatroom.component';
 import { JoinChatsComponent } from './join-chats/join-chats.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
@@ -22,6 +23,7 @@ const routes: Routes = [
 { path: 'admin-login', component: AdminLoginComponent },
 { path: 'admin-users', component: AdminUsersComponent },
 { path: 'chat', component: ChatHomeComponent },
+{ path: 'cb-chat', component: CbChatComponent, canActivate: [AuthGuardService] },
 { path: 'chats/:id', component: ChatComponent, canActivate: [AuthGuardService] },
 { path: 'joinchat', component: JoinChatsComponent, canActivate: [AuthGuardService]},
 { path: 'chatroom', component: ChatroomComponent, canActivate: [AuthGuardService]},
@@ -29,6 +31,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: true})],
-  exports: [RouterModule]
+  exports: [RouterModule] 
 })
 export class AppRoutingModule { }
