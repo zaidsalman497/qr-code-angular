@@ -1,4 +1,7 @@
 <app-top-logggedin-header></app-top-logggedin-header>
+<div class='create-chat-parent'> 
+    <a _ngcontent-lyb-c18="" href="#/create-chat" class="btn btn-outline-primary">Create Chat Room</a>
+</div>
 <div class="container-fluid h-100">
     <div class="row justify-content-center h-100">
         <div class="col-md-4 col-xl-3 chat"><div class="card mb-sm-3 mb-md-0 contacts_card">
@@ -13,7 +16,7 @@
             <div class="card-body contacts_body">
                 <ul class="contacts">
 
-                <li *ngFor="let chat of userChats$ | async" class="active">
+                <li *ngFor="let chat of userChats$ | async;let i = index" class="{{ i == 0 ? 'active' :'' }}" >
                     <div class="d-flex bd-highlight">
                         <div class="img_cont">
                             <img src="{{ chat.iconPath }}" class="rounded-circle user_img">
