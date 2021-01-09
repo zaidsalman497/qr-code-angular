@@ -6,14 +6,15 @@
         </div>
         <div class="msg_cotainer">
             {{ msg.content }}
-            <span class="msg_time">8:40 AM, Today</span>
+            <span class="msg_time">{{ getDate(msg.createdAt) }}</span>
         </div>
     </div>
 
     <div class="d-flex justify-content-end mb-4" *ngIf="isCurrentUser(msg.user?.uid)">
         <div class="msg_cotainer_send">
             {{ msg.content }}
-            <span class="msg_time_send">8:55 AM, Today</span>
+            <span class="msg_time_send"><i class="trash-icon fas fa-trash-alt" title="delete your message" (click)="cs.deleteMessage(chatId, msg)"></i> {{ getDate(msg.createdAt) }}  </span>
+           
         </div>
         <div class="img_cont_msg">
             <img [src]="msg.user?.photoURL || 'assets/unicorn.svg'" class="rounded-circle user_img_msg"

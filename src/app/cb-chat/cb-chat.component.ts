@@ -42,4 +42,8 @@ export class CbChatComponent implements OnInit {
     this.chatTypingMsg = '';
   }
 
+  public deleteChatGroup(id:any): void {
+    this.cs.deleteChatGroup(id);
+  }
+
 }

@@ -16,6 +16,7 @@ import { makeBindingParser } from '@angular/compiler';
   providedIn: 'root'
 })
 export class ChatService {
+
   constructor(
     private afs: AngularFirestore,
     private auth: AuthService,
@@ -102,18 +103,24 @@ export class ChatService {
     }
   }
 
-  public async deleteMessage(chat: any, msg: any): Promise<void> {
+  public async deleteMessage(id: any, msg: any): Promise<void> {
     const { uid } = await this.auth.getUser();
 
-    const ref = this.afs.collection('chats').doc(chat.id);
+    const ref = this.afs.collection('chats').doc(id);
     console.log(msg);
-    if (chat.uid === uid || msg.uid === uid) {
+    if (id === uid || msg.uid === uid) {
       // Allowed to delete
       delete msg.user;
       return ref.update({
         messages: firebase.firestore.FieldValue.arrayRemove(msg)
       });
     }
+  }
+
+  public  async deleteChatGroup(id: any) {
+     this.afs.collection('chats').doc(id).delete().then(() => {
+        window.location.reload();
+     });
   }
 
   public joinUsers(chat$: Observable<any>): Observable<any> {
