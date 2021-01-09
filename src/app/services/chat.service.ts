@@ -82,7 +82,7 @@ export class ChatService {
 
     const docRef = await this.afs.collection('chats').add(data);
 
-    return this.router.navigate(['cb-chat']);
+    return this.router.navigate(['chat']);
   }
 
   public async sendMessage(chatId: any, content: any): Promise<void> {
