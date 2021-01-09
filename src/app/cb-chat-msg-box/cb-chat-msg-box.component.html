@@ -1,0 +1,23 @@
+<ng-container *ngFor="let msg of messages; trackBy: trackByCreated">
+    <div class="d-flex justify-content-start mb-4" *ngIf="!isCurrentUser(msg.user?.uid)">
+        <div class="img_cont_msg">
+            <img [src]="msg.user?.photoURL || 'assets/unicorn.svg'" class="rounded-circle user_img_msg"
+                title="{{ msg.user?.displayName || msg.user?.uid }">
+        </div>
+        <div class="msg_cotainer">
+            {{ msg.content }}
+            <span class="msg_time">8:40 AM, Today</span>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end mb-4" *ngIf="isCurrentUser(msg.user?.uid)">
+        <div class="msg_cotainer_send">
+            {{ msg.content }}
+            <span class="msg_time_send">8:55 AM, Today</span>
+        </div>
+        <div class="img_cont_msg">
+            <img [src]="msg.user?.photoURL || 'assets/unicorn.svg'" class="rounded-circle user_img_msg"
+                title="{{ msg.user?.displayName || msg.user?.uid }">
+        </div>
+    </div>
+</ng-container>

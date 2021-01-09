@@ -13,7 +13,9 @@ body,html{
     text-align: right;
 }
 
-
+.chat-group {
+    cursor: pointer;
+}
 
 .chat{
 
