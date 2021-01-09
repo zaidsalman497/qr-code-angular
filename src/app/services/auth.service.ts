@@ -5,7 +5,7 @@ import firebase from 'firebase';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
-  AngularFirestoreDocument
+  AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
@@ -18,20 +18,23 @@ declare var setCookeeValue: any;
 export class AuthService {
   user$: Observable<User>;
 
+
+
   constructor(
     private afAuth: AngularFireAuth,
     private afs: AngularFirestore,
     private router: Router
   ) {
     this.user$ = this.afAuth.authState.pipe(
-      switchMap(user => {
+      switchMap((user) => {
+
         if (user) {
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
           return of(null);
         }
       }),
-      map(c => c as User)
+      map((c) => c as User)
     );
   }
 
@@ -39,6 +42,42 @@ export class AuthService {
     return this.user$.pipe(first()).toPromise();
   }
 
+  async customSignIn(
+    email: any,
+    password: any
+  ): Promise<void> {
+    const credentials = firebase.auth.EmailAuthProvider.credential(
+      email,
+      password
+    );
+    const result = await this.afAuth.signInWithCredential(credentials);
+
+    setCookeeValue('loggedInUser', email, 2);
+    setCookeeValue('loggedInUserName', result.user?.displayName, 2);
+    setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
+    this.router.navigate(['loggedin']);
+  }
+
+  async customSignUp(
+    displayName: string,
+    email: any,
+    password: any
+  ): Promise<void> {
+    const result = await this.afAuth.createUserWithEmailAndPassword(
+      email,
+      password
+    );
+
+    const rs = await this.afAuth.currentUser;
+    await rs?.updateProfile({
+      displayName,
+      photoURL: './assets/img/unknown.png',
+    });
+    setCookeeValue('loggedInUser', email, 2);
+    setCookeeValue('loggedInUserName', displayName, 2);
+    setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
+    this.router.navigate(['loggedin']);
+  }
 
   async googleSignIn(): Promise<void> {
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -59,19 +98,17 @@ export class AuthService {
 
   private updateUserData(user: User): Promise<void> {
     // Sets user data to firestore on login
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(
+      `users/${user.uid}`
+    );
 
     const data = {
       uid: user.uid,
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL
+      photoURL: user.photoURL,
     };
 
     return userRef.set(data, { merge: true });
-
   }
-
 }
-
-

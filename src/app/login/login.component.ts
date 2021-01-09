@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { addScript, removeScript } from 'src/utils/add-script';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -8,17 +9,23 @@ import { addScript, removeScript } from 'src/utils/add-script';
 })
 export class LoginComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+  public email!: string;
+  public password!: string;
+  public error!: any;
+
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    addScript('login');
-    addScript('firebase');
-    addScript('google');
   }
 
   ngOnDestroy(): void {
-    removeScript('login');
-    removeScript('firebase');
-    removeScript('google');
+  }
+
+  public async signIn(): Promise<void> {
+    try {
+      await this.authService.customSignIn(this.email, this.password);
+    } catch (ex) {
+      this.error = ex;
+    }
   }
 }
