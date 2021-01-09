@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+declare var checkUser: any;
 @Component({
   selector: 'app-top-logggedin-header',
   templateUrl: './top-logggedin-header.component.html',
@@ -10,6 +10,7 @@ export class TopLogggedinHeaderComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    checkUser();
   }
 
 }

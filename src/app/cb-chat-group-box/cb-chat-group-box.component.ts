@@ -12,6 +12,8 @@ export class CbChatGroupBoxComponent implements OnInit, OnChanges {
 
   public selectedChatGroupId: any;
 
+  public searchText!: string;
+
   @Output() public chatGroupSelectionChange = new EventEmitter();
 
   constructor() { }
@@ -30,6 +32,15 @@ export class CbChatGroupBoxComponent implements OnInit, OnChanges {
   public onSelectionChange(id: any): void {
     this.selectedChatGroupId = id;
     this.chatGroupSelectionChange.emit(this.selectedChatGroupId);
+  }
+
+  public matchesName(name: string) : boolean {
+    if (!name || !this.searchText) {
+      return true;
+    }
+
+    return name.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1;
+
   }
 
 }

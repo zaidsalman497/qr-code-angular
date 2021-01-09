@@ -17,11 +17,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from 'src/environments/environment';
 import { GoogleComponent } from './auth/google/google.component';
 import { TopLogggedinHeaderComponent } from './top-logggedin-header/top-logggedin-header.component';
-import { ChatComponent } from './chat/chat.component';
 import { FormsModule } from '@angular/forms';
-import { ChatHomeComponent } from './chat-home/chat-home.component';
-import { JoinChatsComponent } from './join-chats/join-chats.component';
-import { ChatroomComponent } from './chatroom/chatroom.component';
 import { ChatCreateComponent } from './chat-create/chat-create.component';
 import { SelectImgComponent } from './utils/select-img/select-img.component';
 import { CbChatComponent } from './cb-chat/cb-chat.component';
@@ -41,10 +37,6 @@ import { CbChatGroupBoxComponent } from './cb-chat-group-box/cb-chat-group-box.c
     TopHeaderComponent,
     GoogleComponent,
     TopLogggedinHeaderComponent,
-    ChatComponent,
-    ChatHomeComponent,
-    JoinChatsComponent,
-    ChatroomComponent,
     ChatCreateComponent,
     SelectImgComponent,
     CbChatComponent,

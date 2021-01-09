@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth.service';
 import { ChatService } from '../services/chat.service';
 import { User } from '../services/user.model';
 
+declare var checkUser: any;
 @Component({
   selector: 'app-cb-chat',
   templateUrl: './cb-chat.component.html',

@@ -75,7 +75,7 @@ export class ChatService {
       uid,
       name,
       iconPath,
-      createdAt: Date.now(),
+      createdAt: new Date().toISOString(),
       count: 0,
       messages: []
     };
@@ -91,7 +91,7 @@ export class ChatService {
     const data = {
       uid,
       content,
-      createdAt: Date.now()
+      createdAt: new Date().toISOString()
     };
 
     if (uid) {
