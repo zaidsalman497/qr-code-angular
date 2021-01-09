@@ -1,0 +1,30 @@
+<div class="card mb-sm-3 mb-md-0 contacts_card">
+    <div class="card-header">
+        <div class="input-group">
+            <input type="text" placeholder="Search..." name="" class="form-control search">
+            <div class="input-group-prepend">
+                <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
+            </div>
+        </div>
+    </div>
+    <div class="card-body contacts_body">
+        <ul class="contacts">
+
+            <li *ngFor="let chat of chatGroups;let i = index" [ngClass]="{'active': selectedChatGroupId === chat.id}" (click)="onSelectionChange(chat.id)"
+                class="chat-group">
+                <div class="d-flex bd-highlight">
+                    <div class="img_cont">
+                        <img src="{{ chat.iconPath }}" class="rounded-circle user_img">
+                        <span class="online_icon"></span>
+                    </div>
+                    <div class="user_info">
+                        <span>{{ chat.name }}</span>
+                        <p>is online</p>
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+    <div class="card-footer"></div>
+</div>

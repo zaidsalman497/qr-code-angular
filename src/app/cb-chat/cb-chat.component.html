@@ -5,80 +5,55 @@
 <div class="container-fluid h-100">
     <div class="row justify-content-center h-100">
         <div class="col-md-4 col-xl-3 chat">
-            <div class="card mb-sm-3 mb-md-0 contacts_card">
-                <div class="card-header">
-                    <div class="input-group">
-                        <input type="text" placeholder="Search..." name="" class="form-control search">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text search_btn"><i class="fas fa-search"></i></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body contacts_body">
-                    <ul class="contacts">
+            <app-cb-chat-group-box [chatGroups]="chatGroups$ | async"
+                (chatGroupSelectionChange)="onSelectedChatGroupChange($event)"></app-cb-chat-group-box>
+        </div>
+        <div class="col-md-8 col-xl-6 chat">
 
-                        <li *ngFor="let chat of chatGroups$ | async;let i = index" [ngClass]="{'active': i === 0}"
-                            class="chat-group">
+            <ng-container *ngIf="chat$ | async as chat">
+                <ng-container *ngIf=" auth.user$ | async as user">
+                    <div class="card">
+                        <div class="card-header msg_head">
                             <div class="d-flex bd-highlight">
                                 <div class="img_cont">
-                                    <img src="{{ chat.iconPath }}" class="rounded-circle user_img">
+                                    <img src="{{ chat.iconPath }}"
+                                        class="rounded-circle user_img">
                                     <span class="online_icon"></span>
                                 </div>
                                 <div class="user_info">
                                     <span>{{ chat.name }}</span>
-                                    <p>is online</p>
+                                    <p>{{ chat?.messages?.length || '0' }} Messages</p>
+                                </div>
+
+                            </div>
+
+                            <div class="action_menu">
+                                <ul>
+                                    <li><i class="fas fa-user-circle"></i> View profile</li>
+                                    <li><i class="fas fa-users"></i> Add to close friends</li>
+                                    <li><i class="fas fa-plus"></i> Add to group</li>
+                                    <li><i class="fas fa-ban"></i> Block</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body msg_card_body">
+
+                            <app-cb-chat-msg-box [messages]="chat.messages" [currentUserId]="currentUser.uid"> </app-cb-chat-msg-box>
+
+                        </div>
+                        <div class="card-footer">
+                            <div class="input-group">
+
+                                <textarea name="" class="form-control type_msg" placeholder="Type your message..."
+                                    [(ngModel)]="chatTypingMsg"></textarea>
+                                <div class="input-group-append" (click)="submit()">
+                                    <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
                                 </div>
                             </div>
-                        </li>
-
-                    </ul>
-                </div>
-                <div class="card-footer"></div>
-            </div>
-        </div>
-        <div class="col-md-8 col-xl-6 chat">
-            <div class="card">
-                <div class="card-header msg_head">
-                    <div class="d-flex bd-highlight">
-                        <div class="img_cont">
-                            <img src="https://static.turbosquid.com/Preview/001292/481/WV/_D.jpg"
-                                class="rounded-circle user_img">
-                            <span class="online_icon"></span>
-                        </div>
-                        <div class="user_info">
-                            <span>Chat with Khalid</span>
-                            <p>1767 Messages</p>
-                        </div>
-
-                    </div>
-
-                    <div class="action_menu">
-                        <ul>
-                            <li><i class="fas fa-user-circle"></i> View profile</li>
-                            <li><i class="fas fa-users"></i> Add to close friends</li>
-                            <li><i class="fas fa-plus"></i> Add to group</li>
-                            <li><i class="fas fa-ban"></i> Block</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body msg_card_body">
-
-                    <ng-container *ngIf="chat$ | async as chat">
-                        <ng-container *ngIf=" auth.user$ | async as user">
-                            <app-cb-chat-msg-box [messages]="chat.messages" [currentUserId]="currentUser.uid" > </app-cb-chat-msg-box>
-                        </ng-container>
-                    </ng-container>
-                </div>
-                <div class="card-footer">
-                    <div class="input-group">
-
-                        <textarea name="" class="form-control type_msg" placeholder="Type your message..." [(ngModel)]="chatTypingMsg" ></textarea>
-                        <div class="input-group-append" (click)="submit()">
-                            <span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span>
                         </div>
                     </div>
-                </div>
-            </div>
+                </ng-container>
+            </ng-container>
         </div>
     </div>
 </div>

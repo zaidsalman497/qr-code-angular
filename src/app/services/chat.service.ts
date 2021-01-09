@@ -53,6 +53,21 @@ export class ChatService {
     );
   }
 
+  public getAllChats(): Observable<any> {
+    return this.afs
+    .collection('chats')
+    .snapshotChanges()
+    .pipe(
+      map(actions => {
+        return actions.map(a => {
+          const data: any = a.payload.doc.data();
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        });
+      })
+    );
+  }
+
   public async create(name?: string, iconPath?: string): Promise<boolean> {
     const { uid } = await this.auth.getUser();
 
@@ -67,7 +82,7 @@ export class ChatService {
 
     const docRef = await this.afs.collection('chats').add(data);
 
-    return this.router.navigate(['chats', docRef.id]);
+    return this.router.navigate(['cb-chat']);
   }
 
   public async sendMessage(chatId: any, content: any): Promise<void> {
