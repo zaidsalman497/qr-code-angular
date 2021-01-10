@@ -7,6 +7,7 @@
     color: #fff;
     background-color: #dd4b39;
     border-color: rgba(0,0,0,0.2);
+    width: 220px;
 }
   .sign-in-google:hover {
     background: url('/assets/img/google-icon.png') #e0e0e0;
@@ -15,6 +16,7 @@
     background-size: 32px 32px;
     padding-left: 41px;
     color: #fff;
-    background-color: #dd4b39;
+    background-color: #e4bab5;
     border-color: rgba(0,0,0,0.2);
+    width: 220px;
 }

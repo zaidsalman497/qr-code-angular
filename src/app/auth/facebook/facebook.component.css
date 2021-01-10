@@ -1,22 +1,24 @@
-.sign-in-github {
-    background: url('/assets/img/github-logo.png') #f2f2f2;
+
+  .sign-in-facebook {
+    background: url('/assets/img/face-book.png') #e0e0e0;
     background-position: 4px 3px;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     padding-left: 41px;
     color: #fff;
-    background-color: #444;
+    background-color: #3b5998;
     border-color: rgba(0,0,0,0.2);
     width: 220px;
   }
-  .sign-in-github:hover {
-    background: url('/assets/img/github-logo.png') #e0e0e0;
+
+  .sign-in-facebook:hover {
+    background: url('/assets/img/face-book.png') #f2f2f2;
     background-position: 4px 3px;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     padding-left: 41px;
-    color: #fff;
-    background-color: rgb(131, 124, 124);
+    color: #608ff5;
+    background-color: #e7ecf5!important;
     border-color: rgba(0,0,0,0.2);
     width: 220px;
   }

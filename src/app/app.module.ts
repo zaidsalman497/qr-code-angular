@@ -24,6 +24,7 @@ import { CbChatComponent } from './cb-chat/cb-chat.component';
 import { CbChatMsgBoxComponent } from './cb-chat-msg-box/cb-chat-msg-box.component';
 import { CbChatGroupBoxComponent } from './cb-chat-group-box/cb-chat-group-box.component';
 import { GithubComponent } from './auth/github/github.component';
+import { FacebookComponent } from './auth/facebook/facebook.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { GithubComponent } from './auth/github/github.component';
     CbChatMsgBoxComponent,
     CbChatGroupBoxComponent,
     GithubComponent,
+    FacebookComponent,
   ],
   imports: [
     BrowserModule,

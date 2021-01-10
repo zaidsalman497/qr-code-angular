@@ -35,7 +35,18 @@ export class AuthService {
     );
   }
 
-  
+  public getUser(): Promise<User> {
+    return this.user$.pipe(first()).toPromise();
+  }
+
+  async FacebookSignIn(): Promise<void> {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    const credential = await this.afAuth.signInWithPopup(provider);
+    setCookeeValue('loggedInUser', credential.user?.email, 2);
+    setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
+    setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
+    this.router.navigate(['loggedin']);
+  }
 
   async githubSignIn(): Promise<void> {
     const provider = new firebase.auth.GithubAuthProvider();
@@ -62,7 +73,7 @@ export class AuthService {
     setCookeeValue('loggedInUserImgUrl', '', 2);
     return this.router.navigate(['login']);
   }
-  /*
+
   private updateUserData(user: User): Promise<void> {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
@@ -77,7 +88,7 @@ export class AuthService {
     return userRef.set(data, { merge: true });
 
   }
-  */
+
 }
 
 

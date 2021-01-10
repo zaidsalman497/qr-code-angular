@@ -1,0 +1,9 @@
+<div *ngIf="auth.user$ | async as user; else login">
+    <hr>
+    <input type="button" (click)="auth.signOut()" value="Sign Out" class="btn btn-default sign-in-facebook" style="margin-top:2px; margin-bottom:2px;">
+
+  </div>
+  
+  <ng-template #login>
+    <input type="button" (click)="auth.FacebookSignIn()" value="Sign In with facebook" class="btn btn-default sign-in-facebook" style="margin-top:2px; margin-bottom:2px;">    
+  </ng-template>
