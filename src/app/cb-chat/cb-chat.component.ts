@@ -9,7 +9,7 @@ declare var checkUser: any;
   selector: 'app-cb-chat',
   templateUrl: './cb-chat.component.html',
   styleUrls: ['./cb-chat.component.css'],
- 
+
 })
 export class CbChatComponent implements OnInit {
 
@@ -42,7 +42,7 @@ export class CbChatComponent implements OnInit {
     this.chatTypingMsg = '';
   }
 
-  public deleteChatGroup(id:any): void {
+  public deleteChatGroup(id: any): void {
     this.cs.deleteChatGroup(id);
   }
 
