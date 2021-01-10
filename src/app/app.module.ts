@@ -23,6 +23,7 @@ import { SelectImgComponent } from './utils/select-img/select-img.component';
 import { CbChatComponent } from './cb-chat/cb-chat.component';
 import { CbChatMsgBoxComponent } from './cb-chat-msg-box/cb-chat-msg-box.component';
 import { CbChatGroupBoxComponent } from './cb-chat-group-box/cb-chat-group-box.component';
+import { GithubComponent } from './auth/github/github.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { CbChatGroupBoxComponent } from './cb-chat-group-box/cb-chat-group-box.c
     CbChatComponent,
     CbChatMsgBoxComponent,
     CbChatGroupBoxComponent,
+    GithubComponent,
   ],
   imports: [
     BrowserModule,

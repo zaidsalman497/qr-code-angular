@@ -117,7 +117,7 @@ export class ChatService {
     }
   }
 
-  public  async deleteChatGroup(id: any) {
+  public async deleteChatGroup(id: any): Promise<void> {
      this.afs.collection('chats').doc(id).delete().then(() => {
         window.location.reload();
      });
@@ -151,11 +151,11 @@ export class ChatService {
     );
   }
 
-  public async enter(uids: any): Promise<void> {
-    if (uids === undefined) {
+  public async enter(uid: any): Promise<void> {
+    if (uid === undefined) {
       alert('id does not exites');
     } else {
-      window.location.href = '/chats/' + uids;
+      window.location.href = '#/chats/' + uid;
     }
   }
 }
