@@ -76,6 +76,23 @@ export class AuthService {
     setCookeeValue('loggedInUser', email, 2);
     setCookeeValue('loggedInUserName', displayName, 2);
     setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
+  }
+
+  async FacebookSignIn(): Promise<void> {
+    const provider = new firebase.auth.FacebookAuthProvider();
+    const credential = await this.afAuth.signInWithPopup(provider);
+    setCookeeValue('loggedInUser', credential.user?.email, 2);
+    setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
+    setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
+    this.router.navigate(['loggedin']);
+  }
+
+  async githubSignIn(): Promise<void> {
+    const provider = new firebase.auth.GithubAuthProvider();
+    const credential = await this.afAuth.signInWithPopup(provider);
+    setCookeeValue('loggedInUser', credential.user?.email, 2);
+    setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
+    setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
     this.router.navigate(['loggedin']);
   }
 

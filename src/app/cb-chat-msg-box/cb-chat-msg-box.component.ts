@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ChatService } from '../services/chat.service';
 
 @Component({
   selector: 'app-cb-chat-msg-box',
   templateUrl: './cb-chat-msg-box.component.html',
   styleUrls: ['./../cb-chat/cb-chat.component.css'],
-  
+
 })
 export class CbChatMsgBoxComponent implements OnInit {
 
@@ -23,10 +23,10 @@ export class CbChatMsgBoxComponent implements OnInit {
   }
 
   public isCurrentUser(id: any): boolean {
-    return this.currentUserId == id;
+    return this.currentUserId?.toString() === id?.toString();
   }
 
-  public getDate(value:any): any {
+ public getDate(value: any): any {
     const date = new Date(value);
     return `${date?.toDateString()} ${date?.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })}`   || 'unknown';
   }

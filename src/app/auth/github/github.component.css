@@ -1,22 +1,22 @@
-.sign-in-google {
-    background: url('/assets/img/google-icon.png') #f2f2f2;
+.sign-in-github {
+    background: url('/assets/img/github-logo.png') #f2f2f2;
     background-position: 4px 3px;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     padding-left: 41px;
     color: #fff;
-    background-color: #dd4b39;
+    background-color: #444;
     border-color: rgba(0,0,0,0.2);
     width: 220px;
-}
-  .sign-in-google:hover {
-    background: url('/assets/img/google-icon.png') #e0e0e0;
+  }
+  .sign-in-github:hover {
+    background: url('/assets/img/github-logo.png') #e0e0e0;
     background-position: 4px 3px;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     padding-left: 41px;
     color: #fff;
-    background-color: #e4bab5;
+    background-color: rgb(131, 124, 124);
     border-color: rgba(0,0,0,0.2);
     width: 220px;
-}
+  }

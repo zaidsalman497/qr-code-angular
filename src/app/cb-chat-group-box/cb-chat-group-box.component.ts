@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, Output } from '@angular/core';
-import { EventEmitter } from '@angular/core';;
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-cb-chat-group-box',
@@ -34,7 +34,7 @@ export class CbChatGroupBoxComponent implements OnInit, OnChanges {
     this.chatGroupSelectionChange.emit(this.selectedChatGroupId);
   }
 
-  public matchesName(name: string) : boolean {
+  public matchesName(name: string): boolean {
     if (!name || !this.searchText) {
       return true;
     }
