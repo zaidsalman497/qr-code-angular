@@ -76,6 +76,7 @@ export class AuthService {
     setCookeeValue('loggedInUser', email, 2);
     setCookeeValue('loggedInUserName', displayName, 2);
     setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
+    await this.updateUserData(rs as User);
   }
 
   async FacebookSignIn(): Promise<void> {
@@ -84,6 +85,7 @@ export class AuthService {
     setCookeeValue('loggedInUser', credential.user?.email, 2);
     setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
     setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
+    await this.updateUserData(credential.user as User);
     this.router.navigate(['loggedin']);
   }
 
@@ -93,6 +95,7 @@ export class AuthService {
     setCookeeValue('loggedInUser', credential.user?.email, 2);
     setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
     setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
+    await this.updateUserData(credential.user as User);
     this.router.navigate(['loggedin']);
   }
 
@@ -102,6 +105,7 @@ export class AuthService {
     setCookeeValue('loggedInUser', credential.user?.email, 2);
     setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
     setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
+    await this.updateUserData(credential.user as User);
     this.router.navigate(['loggedin']);
   }
 
