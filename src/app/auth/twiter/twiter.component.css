@@ -1,24 +1,24 @@
 
-  .sign-in-facebook {
-    background: url('/assets/img/face-book.png') #e0e0e0;
+  .sign-in-twiter {
+    background: url('/assets/img/twitter-icon.png') #e0e0e0;
     background-position: 4px 3px;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     padding-left: 41px;
     color: #fff;
-    background-color: #3b5998;
+    background-color: #55acee;
     border-color: rgba(0,0,0,0.2);
     width: 220px;
   }
 
-  .sign-in-facebook:hover {
-    background: url('/assets/img/face-book.png') #f2f2f2;
+  .sign-in-twiter:hover {
+    background: url('/assets/img/twitter-icon.png') #f2f2f2;
     background-position: 4px 3px;
     background-repeat: no-repeat;
     background-size: 32px 32px;
     padding-left: 41px;
-    color: #608ff5;
-    background-color: #9fa6b6!important;
+    color: #fff;
+    background-color:  #9fa6b6;
     border-color: rgba(0,0,0,0.2);
     width: 220px;
   }

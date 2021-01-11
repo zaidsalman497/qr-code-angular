@@ -67,7 +67,8 @@ export class AuthService {
       email,
       password
     );
-
+    // tslint:disable-next-line:no-unused-expression
+    await this.updateUserData(result as typeof email, ); password;
     const rs = await this.afAuth.currentUser;
     await rs?.updateProfile({
       displayName,
@@ -76,7 +77,15 @@ export class AuthService {
     setCookeeValue('loggedInUser', email, 2);
     setCookeeValue('loggedInUserName', displayName, 2);
     setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
-    await this.updateUserData(rs as User);
+  }
+  async TwiterSignIn(): Promise<void> {
+    const provider = new firebase.auth.TwitterAuthProvider();
+    const credential = await this.afAuth.signInWithPopup(provider);
+    setCookeeValue('loggedInUser', credential.user?.email, 2);
+    setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
+    setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
+    await this.updateUserData(credential.user as User);
+    this.router.navigate(['loggedin']);
   }
 
   async FacebookSignIn(): Promise<void> {

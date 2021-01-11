@@ -25,6 +25,7 @@ import { CbChatMsgBoxComponent } from './cb-chat-msg-box/cb-chat-msg-box.compone
 import { CbChatGroupBoxComponent } from './cb-chat-group-box/cb-chat-group-box.component';
 import { GithubComponent } from './auth/github/github.component';
 import { FacebookComponent } from './auth/facebook/facebook.component';
+import { TwiterComponent } from './auth/twiter/twiter.component';
 
 
 @NgModule({
@@ -46,6 +47,7 @@ import { FacebookComponent } from './auth/facebook/facebook.component';
     CbChatGroupBoxComponent,
     GithubComponent,
     FacebookComponent,
+    TwiterComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,9 @@
+<div *ngIf="auth.user$ | async as user; else login">
+    <hr>
+    <input type="button" (click)="auth.signOut()" value="Sign Out" class="btn btn-default sign-in-twiter" style="margin-top:2px; margin-bottom:2px;">
+
+  </div>
+  
+  <ng-template #login>
+    <input type="button" (click)="auth.TwiterSignIn()" value="Sign In with twiter" class="btn btn-default sign-in-twiter" style="margin-top:2px; margin-bottom:2px;">    
+  </ng-template>

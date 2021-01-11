@@ -11,8 +11,10 @@
     <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" [(ngModel)]="password">
     <div class="checkbox mb-3">
     </div>
-    <button class="btn btn-lg btn-primary btn-block" type="button" id="btnLogin" (click)="signIn()">Sign in</button><p>or</p>
+    <p>please use social login</p>
+    <button class="btn btn-lg btn-primary btn-block" type="button" id="btnLogin" (click)="signIn()"(keyup.enter)="signIn()">Sign in</button><p>or</p>
     <app-facebook></app-facebook>
+    <app-twiter></app-twiter>
     <app-google></app-google>
     <app-github></app-github>
     <p class="lead" id="status"> {{ error }}</p>
