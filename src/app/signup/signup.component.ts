@@ -12,7 +12,7 @@ export class SignupComponent implements OnInit {
   public email!: string;
   public name!: string;
   public password!: string;
-  public error!: any;
+  public status!: any;
 
   constructor(private auth: AuthService) { }
 
@@ -23,8 +23,9 @@ export class SignupComponent implements OnInit {
   public async signUp(): Promise<void> {
     try {
       await this.auth.customSignUp(this.name, this.email, this.password);
+      this.status = 'To signin, Please verify email in your inbox.';
     } catch (ex) {
-      this.error = ex;
+      this.status = ex;
     }
   }
 

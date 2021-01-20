@@ -48,10 +48,12 @@ function logoutUser() {
   checkUser();
 }
 
-function emailsandpasswords() {
-  displayuser()
-}
+function sendcode() {
+  var user = firebase.auth().currentUser;
 
-function displayuser() {
-  display = userInfo;
+user.sendEmailVerification().then(function() {
+  window.alert('email sent')
+}).catch(function(error) {
+  // An error happened.
+});
 }

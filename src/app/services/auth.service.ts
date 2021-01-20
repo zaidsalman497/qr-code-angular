@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
 import firebase from 'firebase';
+
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
@@ -51,7 +51,6 @@ export class AuthService {
       password
     );
     const result = await this.afAuth.signInWithCredential(credentials);
-
     setCookeeValue('loggedInUser', email, 2);
     setCookeeValue('loggedInUserName', result.user?.displayName, 2);
     setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
@@ -67,13 +66,14 @@ export class AuthService {
       email,
       password
     );
-    // tslint:disable-next-line:no-unused-expression
-    await this.updateUserData(result as typeof email, ); password;
     const rs = await this.afAuth.currentUser;
     await rs?.updateProfile({
       displayName,
       photoURL: './assets/img/unknown.png',
     });
+
+    const resultEmailVerify = await rs?.sendEmailVerification();
+
     setCookeeValue('loggedInUser', email, 2);
     setCookeeValue('loggedInUserName', displayName, 2);
     setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
