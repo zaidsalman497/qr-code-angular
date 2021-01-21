@@ -11,6 +11,8 @@ import {
 import { Observable, of } from 'rxjs';
 import { first, map, switchMap } from 'rxjs/operators';
 import { User } from './user.model';
+import { EmailValidator } from '@angular/forms';
+import { stringify } from '@angular/compiler/src/util';
 
 declare var setCookeeValue: any;
 
@@ -54,6 +56,7 @@ export class AuthService {
     setCookeeValue('loggedInUser', email, 2);
     setCookeeValue('loggedInUserName', result.user?.displayName, 2);
     setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
+    await this.updateUserData(result.user as User);
     this.router.navigate(['loggedin']);
   }
 
@@ -64,7 +67,7 @@ export class AuthService {
   ): Promise<void> {
     const result = await this.afAuth.createUserWithEmailAndPassword(
       email,
-      password
+      password,
     );
     const rs = await this.afAuth.currentUser;
     await rs?.updateProfile({
@@ -72,7 +75,7 @@ export class AuthService {
       photoURL: './assets/img/unknown.png',
     });
 
-    const resultEmailVerify = await rs?.sendEmailVerification();
+    const emailsend = rs?.sendEmailVerification();
 
     setCookeeValue('loggedInUser', email, 2);
     setCookeeValue('loggedInUserName', displayName, 2);

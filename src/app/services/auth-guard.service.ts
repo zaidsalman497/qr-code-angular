@@ -8,7 +8,8 @@ import { AuthService } from './auth.service';
 export class AuthGuardService implements CanActivate {
 
   constructor(private auth: AuthService, private router: Router) {}
-  async canActivate(
+
+  public async canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<boolean> {
@@ -16,6 +17,6 @@ export class AuthGuardService implements CanActivate {
     if (!user) {
       this.router.navigate(['/login']);
     }
-    return !!user;
+    return user ? true : false;
   }
 }
