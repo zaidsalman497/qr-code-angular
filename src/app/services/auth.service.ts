@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import firebase from 'firebase';
+import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
@@ -13,6 +13,7 @@ import { first, map, switchMap } from 'rxjs/operators';
 import { User } from './user.model';
 import { EmailValidator } from '@angular/forms';
 import { stringify } from '@angular/compiler/src/util';
+import { SignupComponent } from '../signup/signup.component';
 
 declare var setCookeeValue: any;
 
@@ -57,53 +58,45 @@ export class AuthService {
     displayName: string,
     email: any,
     password: any,
-    phoneNumber: any
+    phoneNumber: string
   ): Promise<void> {
-    const result = await this.afAuth.createUserWithEmailAndPassword(
-      email,
-      password
-    );
-    const rs = await this.afAuth.currentUser;
-    await rs?.updateProfile({
-      displayName,
-      photoURL: './assets/img/unknown.png',
-    });
-
-    const appVerifier = (window as any).recaptchaVerifier;
-    firebase
-      .auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
-        (window as any).confirmationResult = confirmationResult;
-        // ...
-      })
-      .catch((error) => {
-        // Error; SMS not sent
-        // ...
-        console.log(error);
+    try {
+      const appVerifier = (window as any).recaptchaVerifier;
+      const rs = await this.afAuth.currentUser;
+      await rs?.updateProfile({
+        displayName,
+        photoURL: './assets/img/unknown.png',
       });
 
-    firebase
-      .auth()
-      .signInWithPhoneNumber(phoneNumber, appVerifier)
-      .then((confirmationResult) => {
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
-        (window as any).confirmationResult = confirmationResult;
-        // ...
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      const a = firebase.auth.RecaptchaVerifier_Instance;
+      const phoneProvider = new firebase.auth.PhoneAuthProvider();
 
-    setCookeeValue('loggedInUser', email, 2);
-    setCookeeValue('loggedInUserName', displayName, 2);
-    setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
+      const phoneVerResult = await phoneProvider.verifyPhoneNumber(phoneNumber, appVerifier);
+      console.log('result==>', phoneVerResult);
+
+
+      setCookeeValue('loggedInUser', email, 2);
+      setCookeeValue('loggedInUserName', displayName, 2);
+      setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
+
+    } catch (ex) {
+      console.error('im catch block', ex);
+    }
+
   }
+
   async TwiterSignIn(): Promise<void> {
     const provider = new firebase.auth.TwitterAuthProvider();
+    const credential = await this.afAuth.signInWithPopup(provider);
+    setCookeeValue('loggedInUser', credential.user?.email, 2);
+    setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
+    setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
+    await this.updateUserData(credential.user as User);
+    this.router.navigate(['loggedin']);
+  }
+
+  async phoneSignIn(): Promise<void> {
+    const provider = new firebase.auth.PhoneAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
     setCookeeValue('loggedInUser', credential.user?.email, 2);
     setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
