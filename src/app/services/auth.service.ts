@@ -75,8 +75,7 @@ export class AuthService {
       displayName,
       photoURL: './assets/img/unknown.png',
     });
-
-      const PhoneNumber = getPhoneNumberFromUserInput();
+     
       
       const appVerifier =  (window as any).recaptchaVerifier;
       firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
