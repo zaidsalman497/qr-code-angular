@@ -14,6 +14,7 @@ import { User } from './user.model';
 import { EmailValidator } from '@angular/forms';
 import { stringify } from '@angular/compiler/src/util';
 
+
 declare var setCookeeValue: any;
 
 @Injectable({ providedIn: 'root' })
@@ -43,7 +44,6 @@ export class AuthService {
   public getUser(): Promise<User> {
     return this.user$.pipe(first()).toPromise();
   }
-
   async customSignIn(
     email: any,
     password: any
@@ -63,7 +63,8 @@ export class AuthService {
   async customSignUp(
     displayName: string,
     email: any,
-    password: any
+    password: any,
+    phoneNumber: any
   ): Promise<void> {
     const result = await this.afAuth.createUserWithEmailAndPassword(
       email,
@@ -75,8 +76,31 @@ export class AuthService {
       photoURL: './assets/img/unknown.png',
     });
 
-    const emailsend = rs?.sendEmailVerification();
+      const PhoneNumber = getPhoneNumberFromUserInput();
+      
+      const appVerifier =  (window as any).recaptchaVerifier;
+      firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        // SMS sent. Prompt user to type the code from the message, then sign the
+        // user in with confirmationResult.confirm(code).
+        (window as any).confirmationResult = confirmationResult;
+        // ...
+      }).catch((error) => {
+        // Error; SMS not sent
+        // ...
+        console.log(error)      });
 
+        firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+    .then((confirmationResult) => {
+      // SMS sent. Prompt user to type the code from the message, then sign the
+      // user in with confirmationResult.confirm(code).
+      (window as any).confirmationResult = confirmationResult;
+      // ...
+    }).catch((error) => {
+      console.log(error)
+    });
+
+    
     setCookeeValue('loggedInUser', email, 2);
     setCookeeValue('loggedInUserName', displayName, 2);
     setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
@@ -145,3 +169,7 @@ export class AuthService {
     return userRef.set(data, { merge: true });
   }
 }
+function onSignInSubmit() {
+  throw new Error('Function not implemented.');
+}
+

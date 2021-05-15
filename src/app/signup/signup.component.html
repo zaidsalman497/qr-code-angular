@@ -8,6 +8,9 @@
     <input type="password"  class="form-control" placeholder="Password" required="" [(ngModel)]="password">
     <label for="username" class="sr-only">UserName</label>
     <input type="username"  class="form-control" placeholder="username" required="" autofocus="" [(ngModel)]="name" style="margin-bottom: 12px;">
-    <button class="btn btn-lg btn-primary btn-block" type="button" id="btnSignUp" (click)="signUp()">Sign Up</button>
+    <input type="phone"  class="form-control" placeholder="phone" required="" autofocus="" [(ngModel)]="phone" style="margin-bottom: 12px;">
+    <button class="btn btn-lg btn-primary btn-block" type="button" id="btnSignUp" (click)="signUp()" data-sitekey="6LcQitUaAAAAAHseLXVavwiW44a3ca9UTV82RAbc">Sign Up</button>
     <p class="lead" id="status"> {{ status }}</p>
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+    <div class="g-recaptcha brochure__form__captcha" data-sitekey="6LcQitUaAAAAAHseLXVavwiW44a3ca9UTV82RAbc"></div>
   </div>
