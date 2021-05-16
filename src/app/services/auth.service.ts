@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { firebase, firebaseui, FirebaseUIModule } from 'firebaseui-angular';
+import { firebase, firebaseui } from 'firebaseui-angular';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
