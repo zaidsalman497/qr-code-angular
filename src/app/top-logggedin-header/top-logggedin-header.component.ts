@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 declare var checkUser: any;
+
 @Component({
   selector: 'app-top-logggedin-header',
   templateUrl: './top-logggedin-header.component.html',
@@ -7,10 +9,14 @@ declare var checkUser: any;
 })
 export class TopLogggedinHeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
     checkUser();
+  }
+
+  signOut(): void {
+    this.authService.signOut();
   }
 
 }

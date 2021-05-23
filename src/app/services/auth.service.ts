@@ -47,11 +47,8 @@ export class AuthService {
       password
     );
     const result = await this.afAuth.signInWithCredential(credentials);
-    setCookeeValue('loggedInUser', email, 2);
-    setCookeeValue('loggedInUserName', result.user?.displayName, 2);
-    setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
-    await this.updateUserData(result.user as User);
-    this.router.navigate(['loggedin']);
+
+    this.onSuccessLogin(email, result.user?.displayName, result.user);
   }
 
   async customSignUp(
@@ -74,10 +71,7 @@ export class AuthService {
       const phoneVerResult = await phoneProvider.verifyPhoneNumber(phoneNumber, appVerifier);
       console.log('result==>', phoneVerResult);
 
-
-      setCookeeValue('loggedInUser', email, 2);
-      setCookeeValue('loggedInUserName', displayName, 2);
-      setCookeeValue('loggedInUserImgUrl', './assets/img/unknown.png', 2);
+      this.onSuccessLogin(email, displayName, null);
 
     } catch (ex) {
       console.error('im catch block', ex);
@@ -85,14 +79,20 @@ export class AuthService {
 
   }
 
+  async onSuccessLogin(email: any, displayName: any, user?: any, photoURL?: any): Promise<void> {
+    setCookeeValue('loggedInUser', email, 2);
+    setCookeeValue('loggedInUserName', displayName, 2);
+    setCookeeValue('loggedInUserImgUrl', photoURL || './assets/img/unknown.png', 2);
+    if (user) {
+      await this.updateUserData(user);
+    }
+    this.router.navigate(['loggedin']);
+  }
+
   async TwiterSignIn(): Promise<void> {
     const provider = new firebase.auth.TwitterAuthProvider();
     const credential = await this.afAuth.signInWithPopup(provider);
-    setCookeeValue('loggedInUser', credential.user?.email, 2);
-    setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
-    setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
-    await this.updateUserData(credential.user as User);
-    this.router.navigate(['loggedin']);
+    this.onSuccessLogin(credential.user?.email, credential.user?.displayName, credential.user, credential.user?.photoURL);
   }
 
   async phoneSignIn(): Promise<void> {
@@ -137,9 +137,9 @@ export class AuthService {
 
   async signOut(): Promise<boolean> {
     await this.afAuth.signOut();
-    setCookeeValue('loggedInUser', '', 2);
-    setCookeeValue('loggedInUserName', '', 2);
-    setCookeeValue('loggedInUserImgUrl', '', 2);
+    setCookeeValue('loggedInUser', '', 0);
+    setCookeeValue('loggedInUserName', '', 0);
+    setCookeeValue('loggedInUserImgUrl', '', 0);
     return this.router.navigate(['login']);
   }
 
