@@ -21,10 +21,13 @@ jobs:
       with:
         node-version: '14.x'
 
-    - name: npm install & build
+    - name: npm install 
       run: |
         npm install
-        npm run build --prod
+        
+    - name: ng build
+      run: |
+        npm run ng build --prod
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
