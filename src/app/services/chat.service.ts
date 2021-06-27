@@ -155,7 +155,7 @@ export class ChatService {
     if (uid === undefined) {
       alert('id does not exites');
     } else {
-      window.location.href = '#/chats/' + uid;
+      window.location.href = '/chats/' + uid;
     }
   }
 }

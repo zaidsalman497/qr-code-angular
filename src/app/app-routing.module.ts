@@ -23,7 +23,7 @@ const routes: Routes = [
 { path: 'create-chat', component: ChatCreateComponent, canActivate: [AuthGuardService]}];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes, {useHash: false})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

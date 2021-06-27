@@ -25,7 +25,7 @@ function getCookieByName(name) {
 function checkUser() {
   var loggedInUser = getCookieByName("loggedInUser");
   if (!loggedInUser) {
-      window.location.href = "#/login";
+      window.location.href = "/login";
   } else {
     getElement('loggedInUsertext').textContent = getCookieByName("loggedInUserName"); 
     var imgUrl = getCookieByName('loggedInUserImgUrl');

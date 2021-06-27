@@ -24,7 +24,7 @@ function createUser(email, password) {
         setCookeeValue("loggedInUser", email, 2);
         setCookeeValue("loggedInUserName", getElement('inputusername').value, 2);
         setCookeeValue("loggedinUserImg", "", 2);
-        window.location.href = "#/loggedin"
+        window.location.href = "/loggedin"
 
 
       }).catch(function (error) {

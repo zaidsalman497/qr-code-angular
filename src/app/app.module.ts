@@ -68,7 +68,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     auth: {
       clientId: '60f74826-46b2-411f-a0c8-85cf6a25db1b',
       authority: 'https://login.microsoftonline.com/consumers',
-      redirectUri: 'http://localhost:4200/#/loggedin',
+      redirectUri: 'http://localhost:4200/loggedin',
     }
   })
 }
