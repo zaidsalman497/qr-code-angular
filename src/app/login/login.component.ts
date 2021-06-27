@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
 import { addScript, removeScript } from 'src/utils/add-script';
 import { AuthService } from '../services/auth.service';
+import { AuthenticationResult } from "@azure/msal-browser";
 
 @Component({
   selector: 'app-login',
@@ -13,12 +15,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   public password!: string;
   public error!: any;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private msalservice: MsalService) { }
 
   ngOnInit(): void {
   }
 
   ngOnDestroy(): void {
+  }
+
+  login(): void {
+    this.msalservice.loginPopup().subscribe( (response: AuthenticationResult) => {
+      this.msalservice.instance.setActiveAccount(response.account)
+    } );
   }
 
   public async signIn(): Promise<void> {

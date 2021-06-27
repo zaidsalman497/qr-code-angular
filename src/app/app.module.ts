@@ -28,6 +28,9 @@ import { GithubComponent } from './auth/github/github.component';
 import { FacebookComponent } from './auth/facebook/facebook.component';
 import { TwiterComponent } from './auth/twiter/twiter.component';
 import { FirebaseUiSignupComponent } from './auth/firebase-ui-signup/firebase-ui-signup.component';
+import { IPublicClientApplication, PublicClientApplication } from "@azure/msal-browser";
+import { MsalModule, MsalService, MSAL_INSTANCE } from '@azure/msal-angular'
+
 
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -48,17 +51,29 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     },
     firebase.auth.TwitterAuthProvider.PROVIDER_ID,
     firebase.auth.GithubAuthProvider.PROVIDER_ID,
+    new firebase.auth.OAuthProvider('microsoft.com').providerId,
     {
       requireDisplayName: false,
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
     },
     firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-    firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
   ],
   tosUrl: '<your-tos-link>',
   privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
   credentialHelper: firebaseui.auth.CredentialHelper.GOOGLE_YOLO
 };
+
+export function MSALInstanceFactory(): IPublicClientApplication { 
+  return new PublicClientApplication({
+    auth: {
+      clientId: '60f74826-46b2-411f-a0c8-85cf6a25db1b',
+      authority: 'https://login.microsoftonline.com/consumers',
+      redirectUri: 'http://localhost:4200/#/loggedin',
+    }
+  })
+}
+  
+    
 
 @NgModule({
   declarations: [
@@ -91,9 +106,16 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     AngularFireAuthModule,
     AngularFireStorageModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
-    FormsModule
+    FormsModule,
+    MsalModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory
+    },
+    MsalService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
