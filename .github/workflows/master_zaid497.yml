@@ -55,4 +55,4 @@ jobs:
         app-name: 'zaid497'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A25E66E35AC2466B9CEF4255650C7A87 }}
-        package: \published\
+        package: .
