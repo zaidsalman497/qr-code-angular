@@ -25,4 +25,13 @@ export class SettingsComponent implements OnInit {
      console.log("sorry we couldn't delete your account")
     });
     return this.router.navigate(['login']);
-  }}
+  }
+
+  signOut(): void {
+    this.auth.signOut();
+  }
+}
+  
+
+
+

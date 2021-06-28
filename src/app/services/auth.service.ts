@@ -80,9 +80,9 @@ export class AuthService {
 
   }
 
-  async onSuccessLogin(email: any, displayName: any, user?: any, photoURL?: any): Promise<void> {
+  async onSuccessLogin(email: any, displayName: any, user?: any, photoURL?: any, phonenumber?: any): Promise<void> {
     setCookeeValue('loggedInUser', email, 2);
-    setCookeeValue('loggedInUserName', displayName || "Guest", 2);
+    setCookeeValue('loggedInUserName', displayName ||  'Guest' ,2);
     setCookeeValue('loggedInUserImgUrl', photoURL || './assets/img/unknown.png', 2);
     if (user) {
       await this.updateUserData(user);
