@@ -1,8 +1,8 @@
 <app-top-logggedin-header></app-top-logggedin-header>
 
-<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" *ngIf="auth.user$ | async as user">
     <h1 class="display-4">Zaid Salman</h1>
-     <div>'Hi, thank you for logging in,'Now you can see my games'</div>
+     <h3>Hi, {{ user.displayName }} you can chat now!</h3>
 </div>
 
 <div class="container">

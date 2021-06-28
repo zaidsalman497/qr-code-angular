@@ -14,7 +14,8 @@ import { User } from './user.model';
 import { EmailValidator } from '@angular/forms';
 import { stringify } from '@angular/compiler/src/util';
 import { SignupComponent } from '../signup/signup.component';
-
+import { FirebaseApp, FIREBASE_OPTIONS } from '@angular/fire';
+import { error } from 'protractor';
 declare var setCookeeValue: any;
 
 @Injectable({ providedIn: 'root' })
@@ -54,7 +55,7 @@ export class AuthService {
   async customSignUp(
     displayName: string,
     email: any,
-    password: any,
+    _password: any,
     phoneNumber: string
   ): Promise<void> {
     try {
@@ -81,11 +82,11 @@ export class AuthService {
 
   async onSuccessLogin(email: any, displayName: any, user?: any, photoURL?: any): Promise<void> {
     setCookeeValue('loggedInUser', email, 2);
-    setCookeeValue('loggedInUserName', displayName, 2);
+    setCookeeValue('loggedInUserName', displayName || "Guest", 2);
     setCookeeValue('loggedInUserImgUrl', photoURL || './assets/img/unknown.png', 2);
     if (user) {
       await this.updateUserData(user);
-    }
+    } 
     this.router.navigate(['loggedin']);
   }
 
@@ -133,6 +134,16 @@ export class AuthService {
     setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
     await this.updateUserData(credential.user as User);
     this.router.navigate(['loggedin']);
+  }
+
+   async delete() {
+    const user = firebase.auth().currentUser;
+    (user as any).delete().then(() => {
+      // User deleted.
+    }).catch((error: Error) => {
+     console.log("sorry we couldn't delete your account")
+    });
+    
   }
 
   async signOut(): Promise<boolean> {

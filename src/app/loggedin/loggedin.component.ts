@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-loggedin',
   templateUrl: './loggedin.component.html',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoggedinComponent implements OnInit {
 
-  constructor() {  }
+  constructor(public auth: AuthService) { }
 
   ngOnInit(): void {
   }
+
 
 
 }

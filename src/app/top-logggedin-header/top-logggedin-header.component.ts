@@ -9,7 +9,7 @@ declare var checkUser: any;
 })
 export class TopLogggedinHeaderComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(public authService: AuthService) { }
 
   ngOnInit(): void {
     checkUser();

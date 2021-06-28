@@ -9,18 +9,19 @@ import { Routes, RouterModule } from '@angular/router';
 import { AdminUsersComponent } from './admin-users/admin-users.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { ChatCreateComponent } from './chat-create/chat-create.component';
-import { SignupComponent } from './signup/signup.component';
+import { SettingsComponent } from './settings/settings.component'
+
 
 const routes: Routes = [
 { path: '', component: HomeComponent },
 { path: 'home', component: HomeComponent },
 { path: 'login', component: LoginComponent,   },
-{ path: 'signup', component: SignupComponent },
 { path: 'loggedin', component: LoggedinComponent },
 { path: 'admin-login', component: AdminLoginComponent },
 { path: 'admin-users', component: AdminUsersComponent },
 { path: 'chat', component: CbChatComponent, canActivate: [AuthGuardService] },
-{ path: 'create-chat', component: ChatCreateComponent, canActivate: [AuthGuardService]}];
+{ path: 'create-chat', component: ChatCreateComponent, canActivate: [AuthGuardService]},
+{ path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]}]
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {useHash: false})],
