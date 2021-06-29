@@ -139,11 +139,11 @@ export class AuthService {
    async delete() {
     const user = firebase.auth().currentUser;
     (user as any).delete().then(() => {
-      // User deleted.
-    }).catch((error: Error) => {
-     console.log("sorry we couldn't delete your account")
+      console.log("we have deleted your account")
+    }).catch((error: any) => {
+      alert("we couldn't delete your account")
     });
-    
+    return this.router.navigate(['login']);
   }
 
   async signOut(): Promise<boolean> {
