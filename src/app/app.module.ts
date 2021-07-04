@@ -30,7 +30,9 @@ import { TwiterComponent } from './auth/twiter/twiter.component';
 import { FirebaseUiSignupComponent } from './auth/firebase-ui-signup/firebase-ui-signup.component';
 import { IPublicClientApplication, PublicClientApplication } from "@azure/msal-browser";
 import { MsalModule, MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
-import { SettingsComponent } from './settings/settings.component'
+import { SettingsComponent } from './settings/settings.component';
+import { MicrosoftComponent } from './auth/microsoft/microsoft.component';
+import { AboutMeComponent } from './about-me/about-me.component'
 
 
 
@@ -50,13 +52,13 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
       },
       provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
     },
+    new firebase.auth.OAuthProvider("microsoft.com").providerId,
     firebase.auth.TwitterAuthProvider.PROVIDER_ID,
     firebase.auth.GithubAuthProvider.PROVIDER_ID,
     {
       requireDisplayName: false,
-      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
+      provider: firebase.auth.PhoneAuthProvider.PROVIDER_ID,
     },
-    firebase.auth.PhoneAuthProvider.PROVIDER_ID,
   ],
   tosUrl: '<your-tos-link>',
   privacyPolicyUrl: '<your-privacyPolicyUrl-link>',
@@ -66,8 +68,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
 export function MSALInstanceFactory(): IPublicClientApplication { 
   return new PublicClientApplication({
     auth: {
-      clientId: '52b8eca8-c00b-48f9-881b-5c24e6aa0a45',
-      authority: 'https://login.microsoftonline.com/consumers',
+      clientId: '4ea8fc40-87dd-4f16-8644-ef90823b8e90',
       redirectUri: 'http://localhost:4200/loggedin',
     }
   })
@@ -97,6 +98,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     TwiterComponent,
     FirebaseUiSignupComponent,
     SettingsComponent,
+    MicrosoftComponent,
+    AboutMeComponent,
 
   ],
   imports: [

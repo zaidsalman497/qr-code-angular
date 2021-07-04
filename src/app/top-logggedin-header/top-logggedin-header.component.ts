@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MsalService } from '@azure/msal-angular';
 import { AuthService } from '../services/auth.service';
 declare var checkUser: any;
 
@@ -9,7 +10,7 @@ declare var checkUser: any;
 })
 export class TopLogggedinHeaderComponent implements OnInit {
 
-  constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService, public msalservice: MsalService) { }
 
   ngOnInit(): void {
     checkUser();
@@ -17,6 +18,7 @@ export class TopLogggedinHeaderComponent implements OnInit {
 
   signOut(): void {
     this.authService.signOut();
+    this.msalservice.logout()
   }
 
 }

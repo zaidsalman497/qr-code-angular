@@ -12,6 +12,4 @@ export class LoggedinComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
-
 }

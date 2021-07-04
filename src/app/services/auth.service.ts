@@ -16,6 +16,8 @@ import { stringify } from '@angular/compiler/src/util';
 import { SignupComponent } from '../signup/signup.component';
 import { FirebaseApp, FIREBASE_OPTIONS } from '@angular/fire';
 import { error } from 'protractor';
+import { settings } from 'cluster';
+import { auth } from 'firebaseui';
 declare var setCookeeValue: any;
 
 @Injectable({ providedIn: 'root' })
@@ -136,12 +138,22 @@ export class AuthService {
     this.router.navigate(['loggedin']);
   }
 
+  async microsoftSignIn(): Promise<void> {
+    const provider = new firebase.auth.OAuthProvider('microsoft.com');
+    const credential = await this.afAuth.signInWithPopup(provider);
+    setCookeeValue('loggedInUser', credential.user?.email, 2);
+    setCookeeValue('loggedInUserName', credential.user?.displayName, 2);
+    setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
+    await this.updateUserData(credential.user as User);
+    this.router.navigate(['loggedin']);
+  }
+
    async delete() {
     const user = firebase.auth().currentUser;
     (user as any).delete().then(() => {
       console.log("we have deleted your account")
     }).catch((error: any) => {
-      alert("we couldn't delete your account")
+      alert("We couldn't delete your account")
     });
     return this.router.navigate(['login']);
   }

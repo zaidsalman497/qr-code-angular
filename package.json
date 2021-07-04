@@ -37,6 +37,7 @@
     "rxjs": "~6.6.0",
     "should": "^13.2.3",
     "supertest": "^6.0.1",
+    "three": "^0.130.0",
     "tslib": "^2.1.0",
     "yarn": "^1.22.10",
     "zone.js": "~0.10.2"
@@ -47,6 +48,7 @@
     "@angular/compiler-cli": "^11.0.7",
     "@types/jasmine": "~3.6.0",
     "@types/node": "^12.19.12",
+    "@types/three": "^0.129.2",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
