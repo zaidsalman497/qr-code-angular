@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "nx",
     "start": "ng serve -o",
+    "start:api": "ng serve qr-code-api",
     "build:prod": "ng build --configuration production",
     "build": "ng build",
     "test": "ng test",
