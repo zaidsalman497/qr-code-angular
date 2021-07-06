@@ -100,7 +100,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     SettingsComponent,
     MicrosoftComponent,
     AboutMeComponent,
-    PaymentComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
