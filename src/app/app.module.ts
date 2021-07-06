@@ -32,8 +32,8 @@ import { IPublicClientApplication, PublicClientApplication } from "@azure/msal-b
 import { MsalModule, MsalService, MSAL_INSTANCE } from '@azure/msal-angular';
 import { SettingsComponent } from './settings/settings.component';
 import { MicrosoftComponent } from './auth/microsoft/microsoft.component';
-import { AboutMeComponent } from './about-me/about-me.component'
-
+import { AboutMeComponent } from './about-me/about-me.component';
+import { PaymentComponent } from './payment/payment.component';
 
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -100,7 +100,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     SettingsComponent,
     MicrosoftComponent,
     AboutMeComponent,
-
+    PaymentComponent,
   ],
   imports: [
     BrowserModule,
