@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { loadStripe, Stripe, StripeElement } from '@stripe/stripe-js';
 import { environment } from 'src/environments/environment';
 import { AngularFireFunctions } from '@angular/fire/functions';
 
@@ -9,13 +9,16 @@ import { AngularFireFunctions } from '@angular/fire/functions';
   styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit {
-  constructor(private fns: AngularFireFunctions, private stripe: Stripe) {
+
+  private stripe!: Stripe | null | undefined;
+
+  constructor(private fns: AngularFireFunctions) {
 
   }
 
   async ngOnInit() {
-    this.stripe as any, await loadStripe(environment.stripe.testKey);
-    const elements = this.stripe.elements();
+    this.stripe = await loadStripe(environment.stripe.testKey);
+    const elements = this.stripe?.elements();
 
     const style = {
       base: {
@@ -33,12 +36,12 @@ export class PaymentComponent implements OnInit {
       }
     };
 
-    const card = elements.create('card', { style });
+    const card = elements?.create('card', { style });
 
 
-    card.mount('#card-element');
+    card?.mount('#card-element');
 
-    card.on('change', (event) => {
+    card?.on('change', (event) => {
       const displayError = document.getElementById('card-errors');
       if (event.error) {
         displayError?.textContent as any, event.error.message;
@@ -59,7 +62,7 @@ export class PaymentComponent implements OnInit {
         currency: 'usd'
       };
 
-      this.stripe.createSource(card, ownerInfo).then((result) => {
+      this.stripe?.createSource(card as StripeElement, ownerInfo).then((result) => {
         console.log(result);
         if (result.error) {
           const errorElement = document.getElementById('card-errors');
@@ -77,7 +80,7 @@ export class PaymentComponent implements OnInit {
     obs.subscribe(res => {
       console.log(res);
       if (res.result === 'SUCCESSFUL') {
-        document.getElementsByClassName('text')[0].innerHTML = 'Flower Paid 💸, Thanks';
+        document.getElementsByClassName('text')[0].innerHTML = 'Pro Version Paid 💸, Thanks';
       } else {
         document.getElementsByClassName('text')[0].innerHTML = 'Something went wrong. 😞';
       }
