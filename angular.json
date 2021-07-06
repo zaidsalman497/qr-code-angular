@@ -149,6 +149,64 @@
           }
         }
       }
+    },
+    "qr-code-api": {
+      "root": "apps/qr-code-api",
+      "sourceRoot": "apps/qr-code-api/src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/qr-code-api",
+            "main": "apps/qr-code-api/src/main.ts",
+            "tsConfig": "apps/qr-code-api/tsconfig.app.json",
+            "assets": [
+              "apps/qr-code-api/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/qr-code-api/src/environments/environment.ts",
+                  "with": "apps/qr-code-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "qr-code-api:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/qr-code-api/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/qr-code-api"
+          ],
+          "options": {
+            "jestConfig": "apps/qr-code-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "defaultProject": "qr-code-angular",

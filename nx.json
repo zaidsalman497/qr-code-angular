@@ -17,10 +17,12 @@
     },
     "qr-code-angular-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "qr-code-angular"
-      ]
+      "implicitDependencies": ["qr-code-angular"]
+    },
+    "qr-code-api": {
+      "tags": []
     }
   },
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json"
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "newProjectRoot": "projects"
 }
