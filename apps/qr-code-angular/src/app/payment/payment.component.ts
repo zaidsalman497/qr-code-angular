@@ -1,18 +1,18 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import  StripeCheckoutHandler  from "stripe";
-import  StripeCheckoutStatic  from "stripe";
 
 
-declare var StripeCheckout: StripeCheckoutStatic;
+
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit {
-
+  ngOnInit() {
+  }
+  /*
   constructor(private auth: AuthService, private functions: AngularFireFunctions) {}
 
   @Input() amount: any;
@@ -56,5 +56,5 @@ export class PaymentComponent implements OnInit {
   onPopstate() {
     this.handler.close();
   }
-
+*/
 }

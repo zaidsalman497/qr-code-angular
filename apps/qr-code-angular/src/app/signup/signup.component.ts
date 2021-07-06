@@ -1,4 +1,4 @@
-import { addScript } from 'src/utils/add-script';
+import { addScript } from '../../utils/add-script';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 

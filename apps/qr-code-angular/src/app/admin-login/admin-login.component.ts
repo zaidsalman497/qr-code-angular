@@ -1,4 +1,4 @@
-import { addScript } from '../../utils/add-script';
+import { addScript, removeScript } from '../../utils/add-script';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 
