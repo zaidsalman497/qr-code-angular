@@ -10,26 +10,26 @@
           "strict": true
         }
       },
-      "root": "",
-      "sourceRoot": "src",
+      "root": "apps/qr-code-angular",
+      "sourceRoot": "apps/qr-code-angular/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/qr-code-angular",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
+            "outputPath": "dist/apps/qr-code-angular",
+            "index": "apps/qr-code-angular/src/index.html",
+            "main": "apps/qr-code-angular/src/main.ts",
+            "polyfills": "apps/qr-code-angular/src/polyfills.ts",
+            "tsConfig": "apps/qr-code-angular/tsconfig.app.json",
             "aot": true,
             "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/web.config"
+              "apps/qr-code-angular/src/favicon.ico",
+              "apps/qr-code-angular/src/assets",
+              "apps/qr-code-angular/src/web.config"
             ],
             "styles": [
-              "src/styles.css"
+              "apps/qr-code-angular/src/styles.css"
             ],
             "scripts": []
           },
@@ -37,8 +37,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "apps/qr-code-angular/src/environments/environment.ts",
+                  "with": "apps/qr-code-angular/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -83,16 +83,16 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
+            "main": "apps/qr-code-angular/src/test.ts",
+            "polyfills": "apps/qr-code-angular/src/polyfills.ts",
+            "tsConfig": "apps/qr-code-angular/tsconfig.spec.json",
+            "karmaConfig": "apps/qr-code-angular/karma.conf.js",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "apps/qr-code-angular/src/favicon.ico",
+              "apps/qr-code-angular/src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "apps/qr-code-angular/src/styles.css"
             ],
             "scripts": []
           }
@@ -101,9 +101,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
+              "apps/qr-code-angular/tsconfig.app.json",
+              "apps/qr-code-angular/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"
@@ -123,10 +122,38 @@
           }
         }
       }
+    },
+    "qr-code-angular-e2e": {
+      "root": "apps/qr-code-angular-e2e",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "apps/qr-code-angular-e2e/protractor.conf.js",
+            "devServerTarget": "qr-code-angular:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "qr-code-angular:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "apps/qr-code-angular-e2e/tsconfig.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "qr-code-angular",
   "cli": {
-    "analytics": "76889312-315d-4f96-8474-13e3fdbdb7d8"
+    "analytics": "76889312-315d-4f96-8474-13e3fdbdb7d8",
+    "defaultCollection": "@nrwl/angular"
   }
 }

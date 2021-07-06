@@ -1,5 +1,6 @@
+import { addScript } from '../../utils/add-script';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { addScript, removeScript } from 'src/utils/add-script';
+
 
 @Component({
   selector: 'app-admin-login',

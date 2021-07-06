@@ -1,0 +1,26 @@
+{
+  "npmScope": "qr-code-angular",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": "*",
+    "tslint.json": "*",
+    ".eslintrc.json": "*",
+    "nx.json": "*",
+    "tsconfig.base.json": "*"
+  },
+  "projects": {
+    "qr-code-angular": {
+      "tags": []
+    },
+    "qr-code-angular-e2e": {
+      "tags": [],
+      "implicitDependencies": [
+        "qr-code-angular"
+      ]
+    }
+  },
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json"
+}
