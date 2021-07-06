@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { loadStripe, Stripe, StripeElement } from '@stripe/stripe-js';
-import { environment } from 'src/environments/environment';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import  StripeCheckoutHandler  from "stripe";
+import  StripeCheckoutStatic  from "stripe";
 
+
+declare var StripeCheckout: StripeCheckoutStatic;
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
@@ -10,81 +13,48 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 })
 export class PaymentComponent implements OnInit {
 
-  private stripe!: Stripe | null | undefined;
+  constructor(private auth: AuthService, private functions: AngularFireFunctions) {}
 
-  constructor(private fns: AngularFireFunctions) {
+  @Input() amount: any;
+  @Input() description: any;
 
-  }
+  handler!: StripeCheckoutHandler;
 
-  async ngOnInit() {
-    this.stripe = await loadStripe(environment.stripe.testKey);
-    const elements = this.stripe?.elements();
+  confirmation: any;
+  loading = false;
 
-    const style = {
-      base: {
-        color: '#32325d',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: (window.innerWidth <= 500) ? '12px' : '16px',
-        '::placeholder': {
-          color: '#aab7c4'
-        }
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
+  ngOnInit() {
+    this.handler = StripeCheckout.configure({
+      key: 'pk_test_51J9MZbJ6E4w7cr4J7bYyZ67szJypiNxIRbJ7U3WtEsjS5mEM1juyVNZLxd4T7ZqBd1H85hxoyp56uHvLg5JMVz6900Zn3nO6tp',
+      image: '../../assets/img/pro.jpg',
+      locale: 'auto',
+      source: async (source: any) => {
+        this.loading = true;
+        const user = await this.auth.getUser();
+        const fun = this.functions.httpsCallable('stripeCreateCharge');
+        this.confirmation = await fun({ source: source.id, uid: user.uid, amount: this.amount }).toPromise();
+        this.loading = false;
+
       }
-    };
-
-    const card = elements?.create('card', { style });
-
-
-    card?.mount('#card-element');
-
-    card?.on('change', (event) => {
-      const displayError = document.getElementById('card-errors');
-      if (event.error) {
-        displayError?.textContent as any, event.error.message;
-      } else {
-        displayError?.textContent as any, '';
-      }
-
-    });
-
-    const button = document.getElementById('button');
-    button?.addEventListener('click', (event) => {
-      event.preventDefault();
-      const ownerInfo = {
-        owner: {
-          name : 'user'
-        },
-        amount: 20000,
-        currency: 'usd'
-      };
-
-      this.stripe?.createSource(card as StripeElement, ownerInfo).then((result) => {
-        console.log(result);
-        if (result.error) {
-          const errorElement = document.getElementById('card-errors');
-          errorElement?.textContent as any, result.error.message;
-        } else {
-          this.stripeSourceHandler(result.source);
-        }
-      });
     });
   }
 
-  private stripeSourceHandler(source: any): void {
-    const callable = this.fns.httpsCallable('stripeChargeCall');
-    const obs = callable(source);
-    obs.subscribe(res => {
-      console.log(res);
-      if (res.result === 'SUCCESSFUL') {
-        document.getElementsByClassName('text')[0].innerHTML = 'Pro Version Paid 💸, Thanks';
-      } else {
-        document.getElementsByClassName('text')[0].innerHTML = 'Something went wrong. 😞';
-      }
+  // Open the checkout handler
+  async checkout(e: { preventDefault: () => void; }) {
+    const user = await this.auth.getUser();
+    this.handler.open({
+      name: 'Fireship Store',
+      description: this.description,
+      amount: this.amount,
+      email: user.email,
     });
+    e.preventDefault();
+  }
+
+  // Close on navigate
+  @HostListener('window:popstate')
+  onPopstate() {
+    this.handler.close();
   }
 
 }
