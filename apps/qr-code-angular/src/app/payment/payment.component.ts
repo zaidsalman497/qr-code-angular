@@ -1,135 +1,52 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from "../../environments/environment";
-declare var Stripe: any;
-
-
-
+import { Component } from '@angular/core';
+import { loadStripe, Stripe, TokenResult } from '@stripe/stripe-js';
+import { environment } from '../../environments/environment';
+import firebase from 'firebase'
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
-export class PaymentComponent implements OnInit {
-  constructor() {
+export class PaymentComponent {
+  title = 'Zaid Pro';
+  priceId = 'price_1JA42NJ6E4w7cr4JAdYjpcTw';
+  product = {
+    title: 'Zaid Pro',
+    subTitle: 'pro',
+    description: 'Zaid Pro has now have courses and source codes and you can comment if you are stuck with something.',
+    price: 3.00
+    
+  };
+  quantity = 1;
+  stripePromise = loadStripe(environment.stripe.stripe_key);
 
- // A reference to Stripe.js initialized with your real test publishable API key.
-var stripe = Stripe(environment.stripe.testKey);
+  async checkout() {
+    // Call your backend to create the Checkout session.
 
-// The items the customer wants to buy
-var purchase = {
-  items: [{ id: "xl-tshirt" }]
-};
-
-// Disable the button until we have Stripe set up on the page
-document.querySelector("button").disabled = true;
-fetch("/create-payment-intent", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json"
-  },
-  body: JSON.stringify(purchase)
-})
-  .then(function(result) {
-    return result.json();
-  })
-  .then(function(data) {
-    var elements = stripe.elements();
-
-    var style = {
-      base: {
-        color: "#32325d",
-        fontFamily: 'Arial, sans-serif',
-        fontSmoothing: "antialiased",
-        fontSize: "16px",
-        "::placeholder": {
-          color: "#32325d"
-        }
-      },
-      invalid: {
-        fontFamily: 'Arial, sans-serif',
-        color: "#fa755a",
-        iconColor: "#fa755a"
-      }
-    };
-
-    var card = elements.create("card", { style: style });
-    // Stripe injects an iframe into the DOM
-    card.mount("#card-element");
-
-    card.on("change", function (event) {
-      // Disable the Pay button if there are no card details in the Element
-      document.querySelector("button").disabled = event.empty;
-      document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
+    // When the customer clicks on the button, redirect them to Checkout.
+    const strip = await this.stripePromise;
+    const error = await strip?.redirectToCheckout({
+      mode: 'subscription',
+      lineItems: [{ price: this.priceId, quantity: this.quantity }],
+      successUrl: 'http://localhost:4200/loggedin',
+      cancelUrl: `http://localhost:4200/payment`,
     });
+    // If `redirectToCheckout` fails due to a browser or network
+    // error, display the localized error message to your customer
+    // using `error.message`.
 
-    var form = document.getElementById("payment-form");
-    form.addEventListener("submit", function(event) {
-      event.preventDefault();
-      // Complete payment when the submit button is clicked
-      payWithCard(stripe, card, data.clientSecret);
-    });
-  });
+    if (error) {
+      console.log('sorry we could not complete your payment because' + error);
+    } else {
+      this.checkouted()
+    }
 
-// Calls stripe.confirmCardPayment
-// If the card requires authentication Stripe shows a pop-up modal to
-// prompt the user to enter authentication details without leaving your page.
-var payWithCard = function(stripe, card, clientSecret) {
-  loading(true);
-  stripe
-    .confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: card
-      }
-    })
-    .then(function(result) {
-      if (result.error) {
-        // Show error to your customer
-        showError(result.error.message);
-      } else {
-        // The payment succeeded!
-        orderComplete(result.paymentIntent.id);
-      }
-    });
-};
-
-/* ------- UI helpers ------- */
-
-// Shows a success message when the payment is complete
-var orderComplete = function(paymentIntentId) {
-  loading(false);
-  document
-    .querySelector(".result-message a")
-    .setAttribute(
-      "href",
-      "https://dashboard.stripe.com/test/payments/" + paymentIntentId
-    );
-  document.querySelector(".result-message").classList.remove("hidden");
-  document.querySelector("button").disabled = true;
-};
-
-// Show the customer the error from Stripe if their card fails to charge
-var showError = function(errorMsgText) {
-  loading(false);
-  var errorMsg = document.querySelector("#card-error");
-  errorMsg.textContent = errorMsgText;
-  setTimeout(function() {
-    errorMsg.textContent = "";
-  }, 4000);
-};
-
-// Show a spinner on payment submission
-var loading = function(isLoading) {
-  if (isLoading) {
-    // Disable the button and show a spinner
-    document.querySelector("button").disabled = true;
-    document.querySelector("#spinner").classList.remove("hidden");
-    document.querySelector("#button-text").classList.add("hidden");
-  } else {
-    document.querySelector("button").disabled = false;
-    document.querySelector("#spinner").classList.add("hidden");
-    document.querySelector("#button-text").classList.remove("hidden");
   }
-};
-}
-  ngOnInit() { }
+  
+    private async checkouted() {
+      const stripe = await this.stripePromise
+       if( stripe?.confirmCardPayment ) {
+         firebase.
+    }
+  }
 }
