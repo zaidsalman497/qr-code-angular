@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "nx",
-    "start": "ng serve -o",
+    "start": "nx run qr-code-angular:serve:development",
     "start:api": "ng serve qr-code-api",
     "build:prod": "ng build --configuration production",
     "build": "ng build",

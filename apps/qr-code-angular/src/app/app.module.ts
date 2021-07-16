@@ -111,7 +111,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     AngularFireStorageModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     FormsModule,
-    MsalModule
+    MsalModule,
   ],
   providers: [
     {

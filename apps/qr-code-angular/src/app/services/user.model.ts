@@ -5,3 +5,9 @@ export interface User {
     displayName?: string;
     firstName?: string
 }
+
+export interface Payment {
+    email: string;
+    name?: string;
+    id?: string
+}
