@@ -19,7 +19,9 @@ export class PaymentService {
 
   async checkPayment() {
     const stripe = await this.stripePromise;
-    return await stripe?.confirmCardSetup(environment.stripe.stripe_key);
+    const secret = 'sk_test_51J9MZbJ6E4w7cr4JoZ5TkejLpuJDjCdMdY679BsbGIdYymbcjM6jEj5WnNOKSDJOWrrODpg8e1MHVbjXnsMbvLNm0011j0Qq6s';
+    const id = 'pm_1JE0L6J6E4w7cr4JGFhVkin7';
+    return await stripe?.confirmCardSetup(`${id}_secret_${secret}`);
   }
 
   async checkout(priceId = 'price_1JA42NJ6E4w7cr4JAdYjpcTw', quantity = 1) {
