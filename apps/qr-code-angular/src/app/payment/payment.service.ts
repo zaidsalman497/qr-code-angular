@@ -1,6 +1,7 @@
-import { PaymentComponent } from './payment.component';
 import { Injectable } from '@angular/core';
 import { loadStripe, SetupIntentResult, Stripe } from '@stripe/stripe-js';
+import { error } from 'protractor';
+import { async } from 'rxjs/internal/scheduler/async';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -12,22 +13,32 @@ export class PaymentService {
   constructor() {
     this.stripePromise = loadStripe(environment.stripe.stripe_key);
   }
-
-  async ifpaid() {
-    return false;
+  
+  
+  async secret() {
+    (await this.checkPayment())?.setupIntent?.client_secret
   }
-
-  async checkPayment() {
+  async id() {
+    (await this.checkPayment())?.setupIntent?.id
+  }
+  async checkPayment(): Promise<SetupIntentResult | undefined> {
     const stripe = await this.stripePromise;
-    const secret = 'sk_test_51J9MZbJ6E4w7cr4JoZ5TkejLpuJDjCdMdY679BsbGIdYymbcjM6jEj5WnNOKSDJOWrrODpg8e1MHVbjXnsMbvLNm0011j0Qq6s';
-    const id = 'pm_1JE0L6J6E4w7cr4JGFhVkin7';
-    return await stripe?.confirmCardSetup(`${id}_secret_${secret}`);
+    const secret = this.secret;
+    const id = this.id;
+    return await stripe?.confirmCardSetup(`${this.id}_secret_${this.secret}`);
   }
+
+  async paid(): Promise<void | boolean> {
+    const stripe = this.stripePromise;
+       await (await stripe).confirmCardPayment
+  }
+
+  
 
   async checkout(priceId = 'price_1JA42NJ6E4w7cr4JAdYjpcTw', quantity = 1) {
     // Call your backend to create the Checkout session.
-
     // When the customer clicks on the button, redirect them to Checkout.
+    
     const stripePromise = loadStripe(environment.stripe.stripe_key);
     const stripe = await stripePromise;
     const error = await stripe?.redirectToCheckout({
@@ -35,16 +46,20 @@ export class PaymentService {
       lineItems: [{ price: priceId, quantity }],
       successUrl: 'http://localhost:4200/payment',
       cancelUrl: `http://localhost:4200/payment`,
+    }).then(async function(result) {
+        await paid() == true
+        async function paid(): Promise<void | boolean> {
+            const stripe = this.stripePromise;
+               await (await stripe).confirmCardPayment
+        }
     });
-
+    
     // If `redirectToCheckout` fails due to a browser or network
     // error, display the localized error message to your customer
     // using `error.message`.
-    return this.ifpaid();
-    /* if (error) {
-      console.log('sorry we could not complete your payment because' + error);
-    } else {
-      
-    }*/
+
   }
+  
 }
+
+

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PaymentIntentResult } from '@stripe/stripe-js';
 import { PaymentService } from './payment.service';
 
 @Component({
@@ -33,5 +34,12 @@ export class PaymentComponent implements OnInit {
       .catch((err) => {
         this.response = err;
       });
+  }
+  ifpaid() {
+    if(this.payment.) {
+      return this.payment.paid() != null
+    } else {
+      return this.payment.paid()
+    }
   }
 }

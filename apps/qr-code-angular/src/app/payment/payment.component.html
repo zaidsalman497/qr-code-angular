@@ -1,8 +1,8 @@
 <button (click)="checkPayment()">check payment status</button>
 <pre> {{response | json}}</pre>
-<div id="coin" *ngIf="!ifPaid">
+<div id="coin" *ngIf="payment.ifpaid">
     <div id="button">
-        <button (click)="payment.checkout()">Buy Now</button>
+        <button  *ngIf="payment.ifpaid" (click)="payment.checkout()">Buy Now</button>
     </div>
     <div id="title">
         <h2>{{product.title}}</h2>
@@ -17,7 +17,7 @@
         <p>{{product.description}}</p>
        </div>
 </div>
-<div id="container" *ngIf="ifPaid">
+<div id="container" *ngIf="!payment.ifpaid">
     <div id="title">
         <h2>Zaid Pro</h2>
         <div id="subtitle">
