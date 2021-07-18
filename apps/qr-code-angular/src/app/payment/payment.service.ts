@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { loadStripe, SetupIntentResult, Stripe } from '@stripe/stripe-js';
+import { ConfirmCardPaymentData, ConfirmCardPaymentOptions, loadStripe, PaymentIntentResult, SetupIntentResult, Stripe } from '@stripe/stripe-js';
 import { error } from 'protractor';
 import { async } from 'rxjs/internal/scheduler/async';
 import { environment } from '../../environments/environment';
@@ -28,9 +28,10 @@ export class PaymentService {
     return await stripe?.confirmCardSetup(`${this.id}_secret_${this.secret}`);
   }
 
-  async paid(): Promise<void | boolean> {
-    const stripe = this.stripePromise;
-       await (await stripe).confirmCardPayment
+  async paid(clientSecret: string, data?: ConfirmCardPaymentData, options?: ConfirmCardPaymentOptions): Promise<undefined | PaymentIntentResult | ConfirmCardPaymentOptions | undefined> {
+      const stripe = this.stripePromise;
+      return(await ( await stripe)?.confirmCardPayment(clientSecret, data, options))
+      
   }
 
   
@@ -47,11 +48,7 @@ export class PaymentService {
       successUrl: 'http://localhost:4200/payment',
       cancelUrl: `http://localhost:4200/payment`,
     }).then(async function(result) {
-        await paid() == true
-        async function paid(): Promise<void | boolean> {
-            const stripe = this.stripePromise;
-               await (await stripe).confirmCardPayment
-        }
+        alert('payment completed')
     });
     
     // If `redirectToCheckout` fails due to a browser or network
