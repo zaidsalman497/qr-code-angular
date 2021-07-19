@@ -3,6 +3,7 @@ import { ConfirmCardPaymentData, ConfirmCardPaymentOptions, loadStripe, PaymentI
 import { error } from 'protractor';
 import { async } from 'rxjs/internal/scheduler/async';
 import { environment } from '../../environments/environment';
+import stripe from 'stripe' 
 
 @Injectable({
   providedIn: 'root',
@@ -28,9 +29,9 @@ export class PaymentService {
     return await stripe?.confirmCardSetup(`${this.id}_secret_${this.secret}`);
   }
 
-  async paid(clientSecret: string, data?: ConfirmCardPaymentData, options?: ConfirmCardPaymentOptions): Promise<undefined | PaymentIntentResult | ConfirmCardPaymentOptions | undefined> {
+  async paid(clientSecret: string, data?: ConfirmCardPaymentData, options?: ConfirmCardPaymentOptions): Promise<undefined | PaymentIntentResult | ConfirmCardPaymentOptions | string> {
       const stripe = this.stripePromise;
-      return(await ( await stripe)?.confirmCardPayment(clientSecret, data, options))
+      return(await (await ( await stripe)?.confirmCardPayment(clientSecret, data, options)).paymentIntent?)
       
   }
 
@@ -57,6 +58,17 @@ export class PaymentService {
 
   }
   
+}
+
+export async function CreatePaymentIntent(apiKey: string, config: stripe.StripeConfig) {
+  const paymentintent = new stripe(apiKey, config).paymentIntents.create({
+    amount: 3.00,
+    currency: 'usd',
+  })
+
+  ;(await paymentintent).status
+
+  return paymentintent
 }
 
 
