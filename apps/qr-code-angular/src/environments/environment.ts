@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   stripe: {
+    fail_url: 'localhost:4200/payment',
+    pass_url: 'localhost:4200/payment',
     stripe_key: 'pk_test_51J9MZbJ6E4w7cr4J7bYyZ67szJypiNxIRbJ7U3WtEsjS5mEM1juyVNZLxd4T7ZqBd1H85hxoyp56uHvLg5JMVz6900Zn3nO6tp'
     },
   firebase: {

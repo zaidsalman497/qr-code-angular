@@ -1,47 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { ConfirmCardPaymentData, ConfirmCardPaymentOptions, PaymentIntentResult } from '@stripe/stripe-js';
-import { PaymentService } from './payment.service';
+import { Component } from '@angular/core';
+import { AuthService } from '../services/auth.service';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import  StripeCheckoutHandler  from "stripe";
+import { loadStripe, StripeError } from "@stripe/stripe-js";
+import { environment } from "../../environments/environment";
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
 })
-export class PaymentComponent implements OnInit {
-  response: any;
-  ifPaid = false;
-  constructor(public payment: PaymentService) {}
-  title = 'Zaid Pro';
-  priceId = 'price_1JA42NJ6E4w7cr4JAdYjpcTw';
-  product = {
-    title: 'Zaid Pro',
-    subTitle: 'pro',
-    description:
-      'Zaid Pro has now have courses and source codes and you can comment if you are stuck with something.',
-    price: 3.0,
-  };
-
+export class PaymentComponent {
+  constructor(private auth: AuthService, private functions: AngularFireFunctions) {}
+  priceid: 'prod_JnfNZAIdmf8dEy'
+ stripePromise = loadStripe(environment.stripe.stripe_key)
+  handler: StripeCheckoutHandler;
+  confirmation: any;
+  loading = false;
   quantity = 1;
 
-  ngOnInit(): void {}
-
-  checkPayment() {
-    this.payment
-      .checkPayment()
-      .then((res) => {
-        this.response = res;
-      })
-      .catch((err) => {
-        this.response = err;
-      });
-  }
-    ifpaid() {
-    if(this.payment.paid) {
-         ( this.payment.paid)
-    } else {
-      this.payment.paid
+ 
+  async checkout(clientSecret: string) {
+    const stripe = await this.stripePromise
+    const error = stripe.redirectToCheckout({
+      mode: 'subscription',
+      lineItems: [{ price: this.priceid, quantity: this.quantity }],
+      successUrl: environment.stripe.pass_url,
+      cancelUrl: environment.stripe.fail_url,
+    })
+    return this.status(clientSecret)
+}
+async status(clientSecret: string) {
+  const checkout = this.checkout(clientSecret)
+  const stripe = await this.stripePromise
+  stripe.confirmCardPayment(clientSecret).then(function(response) {
+    if (response.error || checkout) {
+      console.error()
+    } else if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
+      alert('have worked')
     }
-  }
-
-  
+  });
+}
 }
