@@ -15,21 +15,30 @@ export class PaymentComponent {
   priceid: 'prod_JnfNZAIdmf8dEy'
  stripePromise = loadStripe(environment.stripe.stripe_key)
   handler: StripeCheckoutHandler;
-  confirmation: any;
+  confirmation = false;
   loading = false;
   quantity = 1;
 
  
   async checkout(clientSecret: string) {
     const stripe = await this.stripePromise
+    var loading = this.loading
+    var confirmation = this.confirmation
     const error = stripe.redirectToCheckout({
       mode: 'subscription',
       lineItems: [{ price: this.priceid, quantity: this.quantity }],
       successUrl: environment.stripe.pass_url,
       cancelUrl: environment.stripe.fail_url,
-    })
-    return this.status(clientSecret)
+    }).then(() => stripe.confirmCardPayment(clientSecret).then(function (response) {
+      if (response.error || error) {
+        console.error();
+      } else if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
+        alert('have worked');
+      }
+    }))
+    
 }
+/*
 async status(clientSecret: string) {
   const checkout = this.checkout(clientSecret)
   const stripe = await this.stripePromise
@@ -39,6 +48,7 @@ async status(clientSecret: string) {
     } else if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
       alert('have worked')
     }
-  });
+  })
 }
+*/
 }
