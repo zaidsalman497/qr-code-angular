@@ -12,7 +12,8 @@ declare var checkUser: any;
 
 })
 export class CbChatComponent implements OnInit {
-
+  chat = false
+  loading = false
   public chatTypingMsg!: string;
   public chatGroups$!: Observable<any>;
   public chat$!: Observable<any>;
@@ -22,6 +23,7 @@ export class CbChatComponent implements OnInit {
   constructor(public auth: AuthService, public cs: ChatService) {}
 
   ngOnInit(): void {
+    this.loadingTimeout()
     this.chatGroups$ = this.cs.getAllChats();
   }
 
@@ -44,6 +46,18 @@ export class CbChatComponent implements OnInit {
 
   public deleteChatGroup(id: any): void {
     this.cs.deleteChatGroup(id);
+  }
+
+  async loadingTimeout() {
+    // var that = this;  
+                  // no need of this line
+  this.loading = true;
+  this.chat = false;
+
+ setTimeout(() => {                           //<<<---using ()=> syntax
+      this.chat = true;
+      this.loading = false;
+ }, 5000);
   }
 
 }

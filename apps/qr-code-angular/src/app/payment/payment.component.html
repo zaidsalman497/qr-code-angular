@@ -1,3 +1,4 @@
+<app-top-logggedin-header></app-top-logggedin-header>
 <div *ngIf="!confirmation">
     <button (click)="checkout()">checkout</button>
 </div>
@@ -7,4 +8,7 @@
 <div *ngIf="confirmation">
     <h1>you have confirm already</h1>
     <button (click)="back()">cancel</button>
+</div>
+<div *ngIf="nothing">
+
 </div>

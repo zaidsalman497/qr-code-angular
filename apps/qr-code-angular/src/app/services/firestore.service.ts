@@ -7,7 +7,6 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class FireStoreService {
-
   constructor(private auth: AuthService, private db: AngularFirestore) {}
 
   saveToFirestore(collectionName: string, docName: string, data: any): void {

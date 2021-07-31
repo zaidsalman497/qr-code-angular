@@ -10,6 +10,8 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./about-me.component.css']
 })
 export class AboutMeComponent implements OnInit {
+  loading = false
+  animation: any
 
   constructor( public auth: AuthService ) { } 
 

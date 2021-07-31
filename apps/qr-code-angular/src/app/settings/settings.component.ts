@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MsalService } from '@azure/msal-angular';
-import * as firebase from 'firebase';
-import { userInfo } from 'os';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -12,10 +10,12 @@ import { AuthService } from '../services/auth.service';
 })
 export class SettingsComponent implements OnInit {
   private router: Router | any
-
+   settings = false
+   loading = false
   constructor(public auth: AuthService, private msalservice: MsalService) { }
 
   ngOnInit(): void {
+    this.loadingTimeout()
   }
 
   deleteaccount() {
@@ -25,6 +25,16 @@ export class SettingsComponent implements OnInit {
   signOut(): void {
     this.auth.signOut();
     this.msalservice.logout();
+  }
+  async loadingTimeout() {
+    // var that = this;                           // no need of this line
+this.loading = true;
+this.settings = false
+
+setTimeout(() => {      
+      this.loading = false;
+      this.settings = true
+ }, 5000);
   }
 }
   

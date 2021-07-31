@@ -1,6 +1,6 @@
 <app-top-logggedin-header></app-top-logggedin-header>
-
-<form class="form-signin">
+<div *ngIf="createchat">
+    <form class="form-signin">
     
     <h1 class="h3 mb-3 font-weight-normal">Create chat room</h1>
     <label for="inputName" class="sr-only">Name</label>
@@ -22,3 +22,8 @@
     <button class="btn btn-lg btn-primary btn-block" type="button" id="btnCreateChat" (click)="createChat()">Create Chat</button>
     <p class="lead" id="status"> </p>
   </form>
+
+</div>
+<div *ngIf="loading">
+    <app-loading></app-loading>
+</div>

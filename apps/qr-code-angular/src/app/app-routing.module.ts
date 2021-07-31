@@ -12,7 +12,7 @@ import { ChatCreateComponent } from './chat-create/chat-create.component';
 import { SettingsComponent } from './settings/settings.component';
 import { AboutMeComponent } from './about-me/about-me.component';
 import { PaymentComponent } from './payment/payment.component';
-
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -25,7 +25,8 @@ const routes: Routes = [
 { path: 'create-chat', component: ChatCreateComponent, canActivate: [AuthGuardService]},
 { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
 { path: 'animation', component: AboutMeComponent, canActivate: [AuthGuardService]},
-{ path: 'payment', component: PaymentComponent}]
+{ path: 'payment', component: PaymentComponent},
+{ path: '**', component: PageNotFoundComponent}]
 
 
 @NgModule({
