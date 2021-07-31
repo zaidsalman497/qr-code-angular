@@ -1,3 +1,10 @@
-<div>
+<div *ngIf="!confirmation">
     <button (click)="checkout()">checkout</button>
+</div>
+<div *ngIf="loading">
+    <app-loading></app-loading>
+</div>
+<div *ngIf="confirmation">
+    <h1>you have confirm already</h1>
+    <button (click)="back()">cancel</button>
 </div>

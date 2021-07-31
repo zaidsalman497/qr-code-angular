@@ -1,54 +1,71 @@
-import { Component } from '@angular/core';
+import { from, Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { AngularFireFunctions } from '@angular/fire/functions';
-import  StripeCheckoutHandler  from "stripe";
-import { loadStripe, StripeError } from "@stripe/stripe-js";
-import { environment } from "../../environments/environment";
-
+import { loadStripe, StripeError } from '@stripe/stripe-js';
+import { environment } from '../../environments/environment';
+import { resourceLimits } from 'worker_threads';
+import { User } from '../services/user.model';
+import { FireStoreService } from '../services/firestore.service';
+// tslint:disable-next-line: no-unused-expression
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
 })
-export class PaymentComponent {
-  constructor(private auth: AuthService, private functions: AngularFireFunctions) {}
-  priceid: 'prod_JnfNZAIdmf8dEy'
- stripePromise = loadStripe(environment.stripe.stripe_key)
-  handler: StripeCheckoutHandler;
+export class PaymentComponent implements OnInit {
+  constructor(private auth: AuthService, private fs: FireStoreService) {}
+  stripePromise = loadStripe(environment.stripe.stripe_key);
   confirmation = false;
   loading = false;
-  quantity = 1;
-
- 
-  async checkout(clientSecret: string) {
-    const stripe = await this.stripePromise
-    var loading = this.loading
-    var confirmation = this.confirmation
-    const error = stripe.redirectToCheckout({
+  priceId = 'price_1JA42NJ6E4w7cr4JAdYjpcTw';
+  clientSecret!: string;
+  fail!: StripeError;
+  async checkout(): Promise<void> {
+    const stripe = await this.stripePromise;
+    console.log('checkout-1-status');
+    const error = stripe?.redirectToCheckout({
       mode: 'subscription',
-      lineItems: [{ price: this.priceid, quantity: this.quantity }],
-      successUrl: environment.stripe.pass_url,
-      cancelUrl: environment.stripe.fail_url,
-    }).then(() => stripe.confirmCardPayment(clientSecret).then(function (response) {
-      if (response.error || error) {
-        console.error();
-      } else if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
-        alert('have worked');
+      lineItems: [{ price: this.priceId, quantity: 1 }],
+      successUrl: 'http://localhost:4200/payment?my-status=done',
+      cancelUrl: 'http://localhost:4200/payment?my-status=reject',
+    });
+    console.log('checkout-2-status');
+    return this.status(this.clientSecret);
+  }
+  async status(clientSecret: string): Promise<void> {
+    this.getUser().subscribe(async (user) => {
+      this.fs.saveToFirestore('paymentInProgress', 'userId', { id: user.uid });
+      const stripe = await this.stripePromise;
+      const result = await stripe?.confirmCardPayment(clientSecret);
+    });
+  
+  }
+  ngOnInit(): void {
+    const urlParams = new URLSearchParams(window.location.search);
+    this.fs.getFromFirestore('paymentInProgress', 'userId').subscribe((obj) => {
+      if (urlParams.get('my-status') === 'done' && obj?.exists) {
+        this.confirmation = true;
+        this.fs.removeFromFirestore('paymentInProgress', 'userId');
       }
-    }))
-    
-}
-/*
-async status(clientSecret: string) {
-  const checkout = this.checkout(clientSecret)
-  const stripe = await this.stripePromise
-  stripe.confirmCardPayment(clientSecret).then(function(response) {
-    if (response.error || checkout) {
-      console.error()
-    } else if (response.paymentIntent && response.paymentIntent.status === 'succeeded') {
-      alert('have worked')
-    }
-  })
-}
-*/
+    });
+  }
+
+  async back(): Promise<void> { 
+    this.fs.removeFromFirestore('paymentInProgress', 'userId');
+    this.timeOut() === undefined
+      ? (this.loading = false)
+      : (this.loading = true);
+    this.confirmation = false;
+  }
+
+  async timeOut(): Promise<void> {
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
+  }
+
+  getUser(): Observable<User> {
+    return from(this.auth.getUser());
+  }
 }

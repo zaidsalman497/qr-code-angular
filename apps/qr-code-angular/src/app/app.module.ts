@@ -34,6 +34,8 @@ import { SettingsComponent } from './settings/settings.component';
 import { MicrosoftComponent } from './auth/microsoft/microsoft.component';
 import { AboutMeComponent } from './about-me/about-me.component';
 import { PaymentComponent } from './payment/payment.component';
+import { LoadingComponent } from './loading/loading.component';
+import { FireStoreService } from './services/firestore.service';
 
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -100,7 +102,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     SettingsComponent,
     MicrosoftComponent,
     AboutMeComponent,
-    PaymentComponent
+    PaymentComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
@@ -118,7 +121,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       provide: MSAL_INSTANCE,
       useFactory: MSALInstanceFactory
     },
-    MsalService
+    MsalService,
+    FireStoreService
   ],
   bootstrap: [AppComponent]
 })
