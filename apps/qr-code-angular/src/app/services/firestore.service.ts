@@ -31,8 +31,4 @@ export class FireStoreService {
        console.log('remove-result', obj);
      });
  }
-
-ngOnInit() {
-}
-
 }

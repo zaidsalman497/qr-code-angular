@@ -76,31 +76,32 @@ export class PaymentComponent implements OnInit {
               displayName: (await this.auth.getUser()).displayName,
             });
             this.fs.removeFromFirestore('paymentInProgress', 'userId');
-            return this.pro()
-          })
+            // tslint:disable-next-line: no-unused-expression
+            this.ifPro() === this.pro();
+          });
         } else if (urlParams.get('my-status') === 'reject' && obj?.exists) {
           this.fs.removeFromFirestore('paymentInProgress', 'userId');
           this.fs.removeFromFirestore('paid', 'subcription');
-            return this.basic()
+          // tslint:disable-next-line: no-unused-expression
+          this.ifPro() === this.basic();
         }
       });
-
-  
   }
 
   async back(): Promise<void> {
     this.fs.removeFromFirestore('paymentInProgress', 'userId');
     this.fs.removeFromFirestore('paid', 'subcription');
     this.confirmation = false;
-    const stripe = await this.stripePromise
-    const result = await stripe?.confirmCardPayment(this.clientSecret) || undefined;
+    const stripe = await this.stripePromise;
+    const result =
+      (await stripe?.confirmCardPayment(this.clientSecret)) || undefined;
   }
 
   getUser(): Observable<User> {
     return from(this.auth.getUser());
   }
 
-  async loadingTimeout() {
+  async loadingTimeout(): Promise<void> {
     // var that = this;
     this.loading = true;
 
@@ -108,28 +109,40 @@ export class PaymentComponent implements OnInit {
       this.loading = false;
     }, 5000);
   }
-  async pro() {
-    this.fs.removeFromFirestore('unpaidusers', (await this.auth.getUser()).uid)
-    this.fs.getFromFirestore('paidusers', (await this.auth.getUser()).uid)
-    this.fs.saveToFirestore('unpaidusers', (await this.auth.getUser()).uid, {displayName: (await this.auth.getUser()).displayName, email: (await this.auth.getUser()).email, photoUrl: (await this.auth.getUser()).photoURL, uid: (await this.auth.getUser()).uid, subcription: 'active'})
-    this.loadingTimeout()
+  async pro(): Promise<void> {
+    this.fs.removeFromFirestore('unpaidusers', (await this.auth.getUser()).uid);
+    this.fs.getFromFirestore('paidusers', (await this.auth.getUser()).uid);
+    this.fs.saveToFirestore('unpaidusers', (await this.auth.getUser()).uid, {
+      displayName: (await this.auth.getUser()).displayName,
+      email: (await this.auth.getUser()).email,
+      photoUrl: (await this.auth.getUser()).photoURL,
+      uid: (await this.auth.getUser()).uid,
+      subcription: 'active',
+    });
+    this.loadingTimeout();
   }
-  
-  async basic() {
-    this.fs.removeFromFirestore('paidusers', (await this.auth.getUser()).uid)
-    this.fs.removeFromFirestore('unpaidusers', (await this.auth.getUser()).uid)
-    this.fs.getFromFirestore('unpaidusers', (await this.auth.getUser()).uid)
-    this.fs.saveToFirestore('unpaidusers', (await this.auth.getUser()).uid, {displayName: (await this.auth.getUser()).displayName, email: (await this.auth.getUser()).email, photoUrl: (await this.auth.getUser()).photoURL, uid: (await this.auth.getUser()).uid, subcription: 'not active'})
-     this.confirmation = false
+
+  async basic(): Promise<void> {
+    this.fs.removeFromFirestore('paidusers', (await this.auth.getUser()).uid);
+    this.fs.getFromFirestore('unpaidusers', (await this.auth.getUser()).uid);
+    this.fs.removeFromFirestore('unpaidusers', (await this.auth.getUser()).uid);
+    this.fs.saveToFirestore('unpaidusers', (await this.auth.getUser()).uid, {
+      displayName: (await this.auth.getUser()).displayName,
+      email: (await this.auth.getUser()).email,
+      photoUrl: (await this.auth.getUser()).photoURL,
+      uid: (await this.auth.getUser()).uid,
+      subcription: 'not active',
+    });
+    this.confirmation = false;
   }
-  async reload() {
-    window.location.reload()
+  async reload(): Promise<void> {
+    window.location.reload();
   }
-  async ifpaid() {
+  async ifPro(): Promise<void> {
     if (!(await this.auth.getUser())) {
-      this.pro()
+      this.pro();
     } else {
-      this.basic()
+      this.basic();
     }
   }
 }
