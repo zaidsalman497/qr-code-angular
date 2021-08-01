@@ -7,6 +7,7 @@ import { User } from '../services/user.model';
 import { FireStoreService } from '../services/firestore.service';
 import { userInfo } from 'os';
 import { PaymentService } from './payment.service';
+import { BasicDepthPacking } from 'three';
 // tslint:disable-next-line: no-unused-expression
 @Component({
   selector: 'app-payment',
@@ -19,13 +20,13 @@ export class PaymentComponent implements OnInit {
     private fs: FireStoreService,
     private payment: PaymentService
   ) {}
-  stripePromise = loadStripe(environment.stripe.stripe_key);
-  confirmation = false;
+  stripePromise = loadStripe(environment.stripe.stripekey);
+  confirmation: any = false;
   notconfirmed = false;
   nothing = false;
   loading = false;
   priceId = 'price_1JA42NJ6E4w7cr4JAdYjpcTw';
-  clientSecret!: string;
+  clientSecret!: any;
   fail!: StripeError;
   error!: StripeError;
   async checkout(): Promise<void> {
@@ -45,9 +46,7 @@ export class PaymentComponent implements OnInit {
       displayname: (await this.auth.getUser()).displayName,
     });
   }
-  ngOnInit() {
-    this.confirm()
-    this.payment.basic(this.confirmation = false)
+  ngOnInit(): void {
     const urlParams = new URLSearchParams(window.location.search);
     this.fs
       .getFromFirestore('paymentInProgress', 'userId')
@@ -64,13 +63,6 @@ export class PaymentComponent implements OnInit {
             Active: 'active',
             displayName: (await this.auth.getUser()).displayName,
           });
-          this.payment.pro();
-           if (this.payment.pro()) {
-             this.payment.basic
-             this.confirmation = true
-           } else if (this.payment.basic()) {
-             this.confirmation = false
-           }
           this.getUser().subscribe(async (user) => {
             this.fs.saveToFirestore('paid', 'subcription', {
               email: user.email,
@@ -84,22 +76,24 @@ export class PaymentComponent implements OnInit {
               displayName: (await this.auth.getUser()).displayName,
             });
             this.fs.removeFromFirestore('paymentInProgress', 'userId');
-
-            const stripe = await this.stripePromise;
-            const result = await stripe?.confirmCardPayment(this.clientSecret);
-          });
+            return this.pro()
+          })
         } else if (urlParams.get('my-status') === 'reject' && obj?.exists) {
-          this.confirmation = false;
           this.fs.removeFromFirestore('paymentInProgress', 'userId');
           this.fs.removeFromFirestore('paid', 'subcription');
+            return this.basic()
         }
       });
+
+  
   }
 
   async back(): Promise<void> {
     this.fs.removeFromFirestore('paymentInProgress', 'userId');
     this.fs.removeFromFirestore('paid', 'subcription');
     this.confirmation = false;
+    const stripe = await this.stripePromise
+    const result = await stripe?.confirmCardPayment(this.clientSecret) || undefined;
   }
 
   getUser(): Observable<User> {
@@ -108,15 +102,34 @@ export class PaymentComponent implements OnInit {
 
   async loadingTimeout() {
     // var that = this;
-    this.confirmation = false; // no need of this line
     this.loading = true;
 
     setTimeout(() => {
       this.loading = false;
-      this.confirmation = false;
     }, 5000);
   }
-  confirm() {
-    this.confirmation = true
+  async pro() {
+    this.fs.removeFromFirestore('unpaidusers', (await this.auth.getUser()).uid)
+    this.fs.getFromFirestore('paidusers', (await this.auth.getUser()).uid)
+    this.fs.saveToFirestore('unpaidusers', (await this.auth.getUser()).uid, {displayName: (await this.auth.getUser()).displayName, email: (await this.auth.getUser()).email, photoUrl: (await this.auth.getUser()).photoURL, uid: (await this.auth.getUser()).uid, subcription: 'active'})
+    this.loadingTimeout()
+  }
+  
+  async basic() {
+    this.fs.removeFromFirestore('paidusers', (await this.auth.getUser()).uid)
+    this.fs.removeFromFirestore('unpaidusers', (await this.auth.getUser()).uid)
+    this.fs.getFromFirestore('unpaidusers', (await this.auth.getUser()).uid)
+    this.fs.saveToFirestore('unpaidusers', (await this.auth.getUser()).uid, {displayName: (await this.auth.getUser()).displayName, email: (await this.auth.getUser()).email, photoUrl: (await this.auth.getUser()).photoURL, uid: (await this.auth.getUser()).uid, subcription: 'not active'})
+     this.confirmation = false
+  }
+  async reload() {
+    window.location.reload()
+  }
+  async ifpaid() {
+    if (!(await this.auth.getUser())) {
+      this.pro()
+    } else {
+      this.basic()
+    }
   }
 }
