@@ -46,7 +46,8 @@ export class PaymentComponent implements OnInit {
     });
   }
   ngOnInit() {
-    this.payment.basic();
+    this.confirm()
+    this.payment.basic(this.confirmation = false)
     const urlParams = new URLSearchParams(window.location.search);
     this.fs
       .getFromFirestore('paymentInProgress', 'userId')
@@ -64,8 +65,12 @@ export class PaymentComponent implements OnInit {
             displayName: (await this.auth.getUser()).displayName,
           });
           this.payment.pro();
-          this.loadingTimeout();
-
+           if (this.payment.pro()) {
+             this.payment.basic
+             this.confirmation = true
+           } else if (this.payment.basic()) {
+             this.confirmation = false
+           }
           this.getUser().subscribe(async (user) => {
             this.fs.saveToFirestore('paid', 'subcription', {
               email: user.email,
@@ -103,12 +108,15 @@ export class PaymentComponent implements OnInit {
 
   async loadingTimeout() {
     // var that = this;
-    this.confirmation = true; // no need of this line
+    this.confirmation = false; // no need of this line
     this.loading = true;
 
     setTimeout(() => {
       this.loading = false;
-      this.confirmation = true;
+      this.confirmation = false;
     }, 5000);
+  }
+  confirm() {
+    this.confirmation = true
   }
 }
