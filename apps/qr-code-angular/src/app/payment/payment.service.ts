@@ -1,41 +1,22 @@
 import { Stripe } from 'stripe';
 
 import { Injectable } from '@angular/core';
-import { ConfirmCardPaymentData, ConfirmCardPaymentOptions, loadStripe, PaymentIntentResult, SetupIntentResult } from '@stripe/stripe-js';
-import { error } from 'protractor';
-import { async } from 'rxjs/internal/scheduler/async';
-import { environment } from '../../environments/environment';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { FireStoreService } from '../services/firestore.service';
+import { AuthService } from '../services/auth.service';
 declare var stripe: Promise<Stripe>;
 @Injectable({
   providedIn: 'root',
 })
 export class PaymentService {
-  private count = 0;
-  private spinner$ = new BehaviorSubject<string>('');
-
-  constructor() { }
-
-  getSpinnerObserver(): Observable<string> {
-    return this.spinner$.asObservable();
+  constructor(private fs: FireStoreService, private auth: AuthService) {}
+  async pro() {
+    this.fs.removeFromFirestore('unpaidusers', (await this.auth.getUser()).uid)
+    this.fs.getFromFirestore('paidusers', (await this.auth.getUser()).uid)
+    this.fs.saveToFirestore('unpaidusers', (await this.auth.getUser()).uid, {displayName: (await this.auth.getUser()).displayName, email: (await this.auth.getUser()).email, photoUrl: (await this.auth.getUser()).photoURL, uid: (await this.auth.getUser()).uid, subcription: 'active'})
   }
 
-  requestStarted() {
-    if (++this.count === 1) {
-      this.spinner$.next('start');
-    }
-  }
-
-  requestEnded() {
-    if (this.count === 0 || --this.count === 0) {
-      this.spinner$.next('stop');
-    }
-  }
-
-  resetSpinner() {
-    this.count = 0;
-    this.spinner$.next('stop');
-  }
+  async basic() {
+    this.fs.getFromFirestore('unpaidusers', (await this.auth.getUser()).uid)
+    this.fs.saveToFirestore('unpaidusers', (await this.auth.getUser()).uid, {displayName: (await this.auth.getUser()).displayName, email: (await this.auth.getUser()).email, photoUrl: (await this.auth.getUser()).photoURL, uid: (await this.auth.getUser()).uid, subcription: 'not active'})
 }
-
-
+}

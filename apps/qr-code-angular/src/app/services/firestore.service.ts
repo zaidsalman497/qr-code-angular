@@ -9,7 +9,7 @@ import { AuthService } from './auth.service';
 export class FireStoreService {
   constructor(private auth: AuthService, private db: AngularFirestore) {}
 
-  saveToFirestore(collectionName: string, docName: string, data: any): void {
+  saveToFirestore(collectionName: string, docName: string, data: any) {
     this.db.collection(collectionName).doc(docName).set(data).then((obj) => {
      console.log('saveToFirestore-result', obj);
    });
