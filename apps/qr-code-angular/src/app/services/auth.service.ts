@@ -166,7 +166,7 @@ export class AuthService {
     return this.router.navigate(['login']);
   }
 
-  private updateUserData(user: User): Promise<void> {
+  async updateUserData(user: User): Promise<void> {
     // Sets user data to firestore on login
     const userRef: AngularFirestoreDocument<User> = this.afs.doc(
       `users/${user.uid}`
