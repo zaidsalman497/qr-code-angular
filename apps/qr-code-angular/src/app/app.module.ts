@@ -53,7 +53,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
       customParameters: {
         'auth_type': 'reauthenticate'
       },
-      provider: firebase.auth.FacebookAuthProvider.PROVIDER_ID
+      provider: firebase.auth.EmailAuthProvider.PROVIDER_ID
     },
     new firebase.auth.OAuthProvider("microsoft.com").providerId,
     firebase.auth.TwitterAuthProvider.PROVIDER_ID,
