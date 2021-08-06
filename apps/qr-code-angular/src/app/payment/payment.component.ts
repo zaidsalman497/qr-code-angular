@@ -14,8 +14,9 @@ import { BasicDepthPacking } from 'three';
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
 })
-export class PaymentComponent implements OnInit {
-  constructor(
+export class PaymentComponent {
+  
+  /*constructor(
     private auth: AuthService,
     private fs: FireStoreService,
     private payment: PaymentService
@@ -145,4 +146,5 @@ export class PaymentComponent implements OnInit {
       this.basic();
     }
   }
+  */
 }
