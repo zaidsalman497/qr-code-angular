@@ -1,8 +1,8 @@
 <ng-container *ngFor="let msg of messages; trackBy: trackByCreated">
     <div class="d-flex justify-content-start mb-4" *ngIf="!isCurrentUser(msg.user?.uid)">
         <div class="img_cont_msg">
-            <img [src]="msg.user?.photoURL || 'assets/unicorn.svg'" class="rounded-circle user_img_msg"
-                title="{{ msg.user?.displayName || msg.user?.uid }">
+            <img [src]="msg.user?.photoURL || './assets/img/unknown.png'" class="rounded-circle user_img_msg"
+            [title]=" msg.user?.displayName || msg.user?.uid ">
         </div>
         <div class="msg_cotainer">
             {{ msg.content }}
@@ -18,7 +18,8 @@
         </div>
         <div class="img_cont_msg">
             <img [src]="msg.user?.photoURL || './assets/img/unknown.png'" class="rounded-circle user_img_msg"
-                title="{{ msg.user?.displayName || msg.user?.uid }}">
+                [title]=" msg.user?.displayName || msg.user?.uid ">
+              
         </div>
     </div>
 </ng-container>

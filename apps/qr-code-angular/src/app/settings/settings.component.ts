@@ -6,38 +6,21 @@ import { AuthService } from '../services/auth.service';
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css']
+  styleUrls: ['./settings.component.css'],
 })
 export class SettingsComponent implements OnInit {
-  private router: Router | any
-   settings = false
-   loading = false
-  constructor(public auth: AuthService, private msalservice: MsalService) { }
+  private router: Router | any;
 
-  ngOnInit(): void {
-    this.loadingTimeout()
-  }
+  constructor(public auth: AuthService, private msalservice: MsalService) {}
+
+  ngOnInit(): void {}
 
   deleteaccount() {
-    this.auth.delete()
+    this.auth.delete();
   }
 
   signOut(): void {
     this.auth.signOut();
     this.msalservice.logout();
   }
-  async loadingTimeout() {
-    // var that = this;                           // no need of this line
-this.loading = true;
-this.settings = false
-
-setTimeout(() => {      
-      this.loading = false;
-      this.settings = true
- }, 5000);
-  }
 }
-  
-
-
-

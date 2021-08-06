@@ -15,7 +15,6 @@ import { BasicDepthPacking } from 'three';
   styleUrls: ['./payment.component.css'],
 })
 export class PaymentComponent {
-  
   constructor(
     private auth: AuthService,
     private fs: FireStoreService,
@@ -49,7 +48,7 @@ export class PaymentComponent {
   }
   ngOnInit(): void {
     const urlParams = new URLSearchParams(window.location.search);
-    this.paiduser()
+    this.paiduser();
     this.fs
       .getFromFirestore('paymentInProgress', 'userId')
       .subscribe(async (obj) => {
@@ -79,7 +78,7 @@ export class PaymentComponent {
             });
             this.fs.removeFromFirestore('paymentInProgress', 'userId');
             // tslint:disable-next-line: no-unused-expression
-          this.pro();
+            this.pro();
           });
         } else if (urlParams.get('my-status') === 'reject' && obj?.exists) {
           this.fs.removeFromFirestore('paymentInProgress', 'userId');
@@ -103,16 +102,6 @@ export class PaymentComponent {
     return from(this.auth.getUser());
   }
 
-  async loadingTimeout(): Promise<void> {
-    // var that = this;
-    this.loading = true;
-    this.confirmation = false
-
-    setTimeout(() => {
-      this.confirmation = true
-      this.loading = false;
-    }, 5000);
-  }
   async pro(): Promise<void> {
     this.fs.removeFromFirestore('unpaidusers', (await this.auth.getUser()).uid);
     this.fs.getFromFirestore('paidusers', (await this.auth.getUser()).uid);
@@ -123,7 +112,7 @@ export class PaymentComponent {
       uid: (await this.auth.getUser()).uid,
       subcription: 'active',
     });
-    this.loadingTimeout();
+    this.loading = false;
   }
 
   async basic(): Promise<void> {
@@ -149,17 +138,15 @@ export class PaymentComponent {
       this.basic();
     }
   }
- 
+
   async paiduser() {
-    const urlParams = new URLSearchParams(window.location.search)
-    this.fs.getFromFirestore('paid', 'subcription')
-    .subscribe(async (user) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    this.fs.getFromFirestore('paid', 'subcription').subscribe(async (user) => {
       if (urlParams.get('my-status') === 'done' && user?.exists) {
-        this.pro()
+        this.pro();
       } else if (urlParams.get('my-status') === 'reject' && user?.exists) {
-        this.basic()
+        this.basic();
       }
-    })
+    });
   }
-  
 }
