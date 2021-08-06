@@ -37,6 +37,7 @@ import { PaymentComponent } from './payment/payment.component';
 import { LoadingComponent } from './loading/loading.component';
 import { FireStoreService } from './services/firestore.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { CoursesComponent } from './courses/courses.component';
 
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
@@ -105,7 +106,8 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     AboutMeComponent,
     PaymentComponent,
     LoadingComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    CoursesComponent
   ],
   imports: [
     BrowserModule,

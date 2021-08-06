@@ -1,0 +1,11 @@
+<app-top-logggedin-header></app-top-logggedin-header>
+<div *ngIf="!confirmation">
+ <button (click)="checkout()">checkout</button>
+</div>
+<div *ngIf="confirmation">
+  <h1>welcome to Zaid Pro</h1>
+  <button (click)="back()">cansel</button>
+</div>
+<div *ngIf="loading">
+    <app-loading></app-loading>
+</div>

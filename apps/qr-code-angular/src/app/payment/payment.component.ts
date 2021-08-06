@@ -16,7 +16,7 @@ import { BasicDepthPacking } from 'three';
 })
 export class PaymentComponent {
   
-  /*constructor(
+  constructor(
     private auth: AuthService,
     private fs: FireStoreService,
     private payment: PaymentService
@@ -49,6 +49,7 @@ export class PaymentComponent {
   }
   ngOnInit(): void {
     const urlParams = new URLSearchParams(window.location.search);
+    this.paiduser()
     this.fs
       .getFromFirestore('paymentInProgress', 'userId')
       .subscribe(async (obj) => {
@@ -78,13 +79,13 @@ export class PaymentComponent {
             });
             this.fs.removeFromFirestore('paymentInProgress', 'userId');
             // tslint:disable-next-line: no-unused-expression
-            this.ifPro() === this.pro();
+          this.pro();
           });
         } else if (urlParams.get('my-status') === 'reject' && obj?.exists) {
           this.fs.removeFromFirestore('paymentInProgress', 'userId');
           this.fs.removeFromFirestore('paid', 'subcription');
           // tslint:disable-next-line: no-unused-expression
-          this.ifPro() === this.basic();
+          this.basic();
         }
       });
   }
@@ -105,8 +106,10 @@ export class PaymentComponent {
   async loadingTimeout(): Promise<void> {
     // var that = this;
     this.loading = true;
+    this.confirmation = false
 
     setTimeout(() => {
+      this.confirmation = true
       this.loading = false;
     }, 5000);
   }
@@ -146,5 +149,17 @@ export class PaymentComponent {
       this.basic();
     }
   }
-  */
+ 
+  async paiduser() {
+    const urlParams = new URLSearchParams(window.location.search)
+    this.fs.getFromFirestore('paid', 'subcription')
+    .subscribe(async (user) => {
+      if (urlParams.get('my-status') === 'done' && user?.exists) {
+        this.pro()
+      } else if (urlParams.get('my-status') === 'reject' && user?.exists) {
+        this.basic()
+      }
+    })
+  }
+  
 }
