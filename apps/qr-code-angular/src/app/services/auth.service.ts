@@ -9,7 +9,7 @@ import {
 } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
-import { first, map, switchMap } from 'rxjs/operators';
+import { first, map, switchMap, take, tap } from 'rxjs/operators';
 import { User } from './user.model';
 import { EmailValidator } from '@angular/forms';
 import { stringify } from '@angular/compiler/src/util';
@@ -23,6 +23,8 @@ declare var setCookeeValue: any;
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   user$: Observable<User>;
+
+
 
   constructor(
     private afAuth: AngularFireAuth,

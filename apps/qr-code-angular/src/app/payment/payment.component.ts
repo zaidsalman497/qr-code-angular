@@ -53,29 +53,16 @@ export class PaymentComponent {
       .getFromFirestore('paymentInProgress', 'userId')
       .subscribe(async (obj) => {
         if (urlParams.get('my-status') === 'done' && obj?.exists) {
-          this.fs.saveToFirestore('paid', 'subcription', {
-            email: (await this.auth.getUser()).email,
-            Active: 'active',
-            displayName: (await this.auth.getUser()).displayName,
-          });
           this.fs.removeFromFirestore('unpaid', 'nosubcription');
-          this.fs.saveToFirestore('paid', 'subcription', {
-            email: (await this.auth.getUser()).email,
-            Active: 'active',
-            displayName: (await this.auth.getUser()).displayName,
-          });
+          // save to paid in firebase
           this.getUser().subscribe(async (user) => {
-            this.fs.saveToFirestore('paid', 'subcription', {
+            this.fs.saveToFirestore('paid', user.uid, {
               email: user.email,
               Active: 'active',
               displayName: user.displayName,
             });
             this.fs.removeFromFirestore('unpaid', 'nosubcription');
-            this.fs.saveToFirestore('paid', 'subcription', {
-              email: (await this.auth.getUser()).email,
-              Active: 'active',
-              displayName: (await this.auth.getUser()).displayName,
-            });
+
             this.fs.removeFromFirestore('paymentInProgress', 'userId');
             // tslint:disable-next-line: no-unused-expression
             this.pro();
@@ -112,7 +99,7 @@ export class PaymentComponent {
       uid: (await this.auth.getUser()).uid,
       subcription: 'active',
     });
-    this.loading = false;
+    this.confirmation = true;
   }
 
   async basic(): Promise<void> {

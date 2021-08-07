@@ -1,1 +1,14 @@
-<p>courses works!</p>
+<app-top-logggedin-header></app-top-logggedin-header>
+<app-loading>
+<div *ngIf="courses">
+    <div class="container">
+       <div class="c-video">
+        <video class="video" src="../../assets/img/zaid.mp4" controls></video>
+       </div>
+    </div>
+</div>
+<div *ngIf="!courses">
+    <p>sorry you have not subscribed yet</p>
+    <a href="/payment">payment</a>
+</div>
+</app-loading>

@@ -31,4 +31,7 @@ export class FireStoreService {
        console.log('remove-result', obj);
      });
  }
+ getCourses(): Observable<any> {
+   return this.getFromFirestore('courses', 'courses');
+ }
 }

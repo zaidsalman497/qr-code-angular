@@ -1,3 +1,4 @@
+import { CoursesComponent } from './courses/courses.component';
 import { CbChatComponent } from './cb-chat/cb-chat.component';
 import { AdminLoginComponent } from './admin-login/admin-login.component';
 import { LoggedinComponent } from './loggedin/loggedin.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
 { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
 { path: 'animation', component: AboutMeComponent, canActivate: [AuthGuardService]},
 { path: 'payment', component: PaymentComponent},
+{ path: 'courses', component: CoursesComponent},
 { path: '**', component: PageNotFoundComponent}]
 
 
