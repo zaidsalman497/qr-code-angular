@@ -35,8 +35,8 @@ export class PaymentComponent {
     const error = stripe?.redirectToCheckout({
       mode: 'subscription',
       lineItems: [{ price: this.priceId, quantity: 1 }],
-      successUrl: 'http://localhost:4200/payment?my-status=done',
-      cancelUrl: 'http://localhost:4200/payment?my-status=reject',
+      successUrl: 'https://zaid497.azurewebsites.net/payment?my-status=done',
+      cancelUrl: 'https://https://zaid497.azurewebsites.net/payment?my-status=reject',
     });
     console.log('checkout-2-status');
     return this.status();
