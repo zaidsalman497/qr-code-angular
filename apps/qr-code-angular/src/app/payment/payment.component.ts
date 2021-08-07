@@ -1,13 +1,10 @@
 import { from, Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { loadStripe, StripeError } from '@stripe/stripe-js';
-import { environment } from '../../environments/environment';
 import { User } from '../services/user.model';
 import { FireStoreService } from '../services/firestore.service';
-import { userInfo } from 'os';
 import { PaymentService } from './payment.service';
-import { BasicDepthPacking } from 'three';
 // tslint:disable-next-line: no-unused-expression
 @Component({
   selector: 'app-payment',
