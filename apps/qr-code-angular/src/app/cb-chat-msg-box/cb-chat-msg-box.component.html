@@ -1,8 +1,9 @@
 <ng-container *ngFor="let msg of messages; trackBy: trackByCreated">
     <div class="d-flex justify-content-start mb-4" *ngIf="!isCurrentUser(msg.user?.uid)">
-        <div class="img_cont_msg">
+        <div class="img_cont_msg" *ngIf="auth.user$ | async as user">
             <img [src]="msg.user?.photoURL || './assets/img/unknown.png'" class="rounded-circle user_img_msg"
             [title]=" msg.user?.displayName || msg.user?.uid ">
+            <p class="name">{{msg.user?.displayName}}</p>
         </div>
         <div class="msg_cotainer">
             {{ msg.content }}

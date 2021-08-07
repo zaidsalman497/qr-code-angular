@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 import { ChatService } from '../services/chat.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class CbChatMsgBoxComponent implements OnInit {
   @Input() public currentUserId: any;
   @Input() public chatId: any;
 
-  constructor(public cs: ChatService) { }
+  constructor(public cs: ChatService, public auth: AuthService) { }
 
   ngOnInit(): void {
   }

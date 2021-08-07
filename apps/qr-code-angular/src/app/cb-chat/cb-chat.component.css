@@ -24,9 +24,6 @@ body,html{
     cursor: pointer;
 }
 
-.chat{
-
-}
 .card{
     height: 80%;
     border-radius: 15px !important;
@@ -242,4 +239,7 @@ background-color: rgba(0,0,0,0.2);
 .contacts_card{
 margin-bottom: 15px !important;
 }
+}
+.name {
+  position: absolute;
 }
