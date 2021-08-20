@@ -10,15 +10,14 @@ declare var checkUser: any;
 })
 export class TopLogggedinHeaderComponent implements OnInit {
 
-  constructor(public authService: AuthService, public msalservice: MsalService) { }
+  constructor(public auth: AuthService, public msalservice: MsalService) { }
 
   ngOnInit(): void {
     checkUser();
   }
 
   signOut(): void {
-    this.authService.signOut();
-    this.msalservice.logout()
+    this.auth.signOut();
   }
 
 }

@@ -4,10 +4,7 @@
 
 export const environment = {
   production: false,
-  stripe: {
-    fail_url: 'http://localhost:4200/payment',
-    pass_url: 'http://localhost:4200/payment'
-    },
+  baseUrl: 'http://localhost:4200',
   firebase: {
     apiKey: 'AIzaSyBC2WKMKDZmAaY6hpZIWkVdxeVVSlX4z84',
     authDomain: 'qr-code-website.firebaseapp.com',

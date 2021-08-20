@@ -1,136 +1,62 @@
 import { from, Observable } from 'rxjs';
-import { Component } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { loadStripe, StripeError } from '@stripe/stripe-js';
+import { Stripe, loadStripe, SourceResult, StripeError } from '@stripe/stripe-js';
 import { User } from '../services/user.model';
 import { FireStoreService } from '../services/firestore.service';
 import { PaymentService } from './payment.service';
+import { AngularFireFunctions } from "@angular/fire/functions";
+import { AngularStripeService } from "@fireflysemantics/angular-stripe-service";
 // tslint:disable-next-line: no-unused-expression
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
 })
-export class PaymentComponent {
-  constructor(
-    private auth: AuthService,
-    private fs: FireStoreService,
-    private payment: PaymentService
-  ) {}
-  stripePromise = loadStripe('pk_test_51J9MZbJ6E4w7cr4J7bYyZ67szJypiNxIRbJ7U3WtEsjS5mEM1juyVNZLxd4T7ZqBd1H85hxoyp56uHvLg5JMVz6900Zn3nO6tp');
-  confirmation: any = false;
-  notconfirmed = false;
-  nothing = false;
+export class PaymentComponent implements OnInit {
+  constructor(private auth: AuthService, private fs: FireStoreService, private stripekey: AngularStripeService) {}
+
+  @Input() amount!: number;
+  @Input() description!: string;
+  @ViewChild('cardElement') cardElement!: ElementRef;
+
+  card!: any;
+  cardErrors!: any;
+  error!: StripeError
+
   loading = false;
-  priceId = 'price_1JA42NJ6E4w7cr4JAdYjpcTw';
-  clientSecret!: any;
-  fail!: StripeError;
-  error!: StripeError;
-  async checkout(): Promise<void> {
-    const stripe = await this.stripePromise;
-    this.loading = true;
-    const error = stripe?.redirectToCheckout({
-      mode: 'subscription',
-      lineItems: [{ price: this.priceId, quantity: 1 }],
-      successUrl: 'https://zaid497.azurewebsites.net/payment?my-status=done',
-      cancelUrl: 'https://https://zaid497.azurewebsites.net/payment?my-status=reject',
-    });
-    console.log('checkout-2-status');
-    return this.status();
-  }
-  async status(): Promise<void> {
-    this.fs.saveToFirestore('paymentInProgress', 'userId', {
-      displayname: (await this.auth.getUser()).displayName,
+  confirmation = false;
+  ifdisabled = true;
+  stripe!: Stripe | null;
+
+
+  async ngOnInit() {
+    this.stripe = await loadStripe('pk_test_51J9MZbJ6E4w7cr4J7bYyZ67szJypiNxIRbJ7U3WtEsjS5mEM1juyVNZLxd4T7ZqBd1H85hxoyp56uHvLg5JMVz6900Zn3nO6tp');
+    const elements = this.stripe?.elements();
+
+    this.card = elements?.create('card');
+    this.card.mount(this.cardElement.nativeElement);
+
+    this.card.addEventListener('change', ({   }) => {
+        this.cardErrors = this.error && this.error.message;
+        this.ifdisabled = false
     });
   }
-  ngOnInit(): void {
-    const urlParams = new URLSearchParams(window.location.search);
-    this.paiduser();
-    this.fs
-      .getFromFirestore('paymentInProgress', 'userId')
-      .subscribe(async (obj) => {
-        if (urlParams.get('my-status') === 'done' && obj?.exists) {
-          this.fs.removeFromFirestore('unpaid', 'nosubcription');
-          // save to paid in firebase
-          this.getUser().subscribe(async (user) => {
-            this.fs.saveToFirestore('paid', user.uid, {
-              email: user.email,
-              Active: 'active',
-              displayName: user.displayName,
-            });
-            this.fs.removeFromFirestore('unpaid', 'nosubcription');
 
-            this.fs.removeFromFirestore('paymentInProgress', 'userId');
-            // tslint:disable-next-line: no-unused-expression
-            this.pro();
-          });
-        } else if (urlParams.get('my-status') === 'reject' && obj?.exists) {
-          this.fs.removeFromFirestore('paymentInProgress', 'userId');
-          this.fs.removeFromFirestore('paid', 'subcription');
-          // tslint:disable-next-line: no-unused-expression
-          this.basic();
-        }
-      });
-  }
+  async handleForm(e: any): Promise<SourceResult | undefined | void> {
+    e.preventDefault();
+    const source = await this.stripe?.createSource(this.card);
+    
 
-  async back(): Promise<void> {
-    this.fs.removeFromFirestore('paymentInProgress', 'userId');
-    this.fs.removeFromFirestore('paid', 'subcription');
-    this.confirmation = false;
-    const stripe = await this.stripePromise;
-    const result =
-      (await stripe?.confirmCardPayment(this.clientSecret)) || undefined;
-  }
-
-  getUser(): Observable<User> {
-    return from(this.auth.getUser());
-  }
-
-  async pro(): Promise<void> {
-    this.fs.removeFromFirestore('unpaidusers', (await this.auth.getUser()).uid);
-    this.fs.getFromFirestore('paidusers', (await this.auth.getUser()).uid);
-    this.fs.saveToFirestore('unpaidusers', (await this.auth.getUser()).uid, {
-      displayName: (await this.auth.getUser()).displayName,
-      email: (await this.auth.getUser()).email,
-      photoUrl: (await this.auth.getUser()).photoURL,
-      uid: (await this.auth.getUser()).uid,
-      subcription: 'active',
-    });
-    this.confirmation = true;
-  }
-
-  async basic(): Promise<void> {
-    this.fs.removeFromFirestore('paidusers', (await this.auth.getUser()).uid);
-    this.fs.getFromFirestore('unpaidusers', (await this.auth.getUser()).uid);
-    this.fs.removeFromFirestore('unpaidusers', (await this.auth.getUser()).uid);
-    this.fs.saveToFirestore('unpaidusers', (await this.auth.getUser()).uid, {
-      displayName: (await this.auth.getUser()).displayName,
-      email: (await this.auth.getUser()).email,
-      photoUrl: (await this.auth.getUser()).photoURL,
-      uid: (await this.auth.getUser()).uid,
-      subcription: 'not active',
-    });
-    this.confirmation = false;
-  }
-  async reload(): Promise<void> {
-    window.location.reload();
-  }
-  async ifPro(): Promise<void> {
-    if (!(await this.auth.getUser())) {
-      this.pro();
+    if (this.error) {
+      // Inform the customer that there was an error.
+      this.cardErrors = source?.error?.message;
+      this.confirmation = false
+      this.ifdisabled = true
     } else {
-      this.basic();
+      // Send the token to your server.
+     const result = source?.source?.id
+      this.confirmation = true
     }
-  }
-
-  async paiduser() {
-    const urlParams = new URLSearchParams(window.location.search);
-    this.fs.getFromFirestore('paid', 'subcription').subscribe(async (user) => {
-      if (urlParams.get('my-status') === 'done' && user?.exists) {
-        this.pro();
-      } else if (urlParams.get('my-status') === 'reject' && user?.exists) {
-        this.basic();
-      }
-    });
   }
 }

@@ -90,6 +90,7 @@ export class AuthService {
     setCookeeValue('loggedInUserImgUrl', photoURL || './assets/img/unknown.png', 2);
     if (user) {
       await this.updateUserData(user);
+  
     } 
     this.router.navigate(['loggedin']);
   }
@@ -128,6 +129,12 @@ export class AuthService {
     setCookeeValue('loggedInUserImgUrl', credential.user?.photoURL, 2);
     await this.updateUserData(credential.user as User);
     this.router.navigate(['loggedin']);
+  }
+
+  async recaper() {
+    const appVerifier = (window as any).recaptchaVerifier
+    const provider = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+    provider.render() 
   }
 
   async googleSignIn(): Promise<void> {

@@ -1,14 +1,19 @@
-<app-top-logggedin-header></app-top-logggedin-header>
-<app-loading>
-<div *ngIf="!confirmation">
- <button (click)="checkout()">checkout</button>
-</div>
-<div *ngIf="confirmation">
-  <h1>welcome to Zaid Pro</h1>
-  <button (click)="back()">cansel</button>
-</div>
+ <app-loading>
+  <form (submit)="handleForm($event)">
+
+
+    <div #cardElement>
+    </div>
+  
+  
+    <!-- Used to display Element errors. -->
+    <p>{{ cardErrors }}</p>
+  <button [disabled]="ifdisabled">checkout</button>
+  </form>
+  
+   <div *ngIf="confirmation">
+    <h1>hello</h1>
+   </div>
+
 </app-loading>
-<div *ngIf="loading">
-  <app-loading></app-loading>
-</div>
 

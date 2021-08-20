@@ -18,7 +18,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 import { GoogleComponent } from './auth/google/google.component';
 import { TopLogggedinHeaderComponent } from './top-logggedin-header/top-logggedin-header.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChatCreateComponent } from './chat-create/chat-create.component';
 import { SelectImgComponent } from './utils/select-img/select-img.component';
 import { CbChatComponent } from './cb-chat/cb-chat.component';
@@ -38,7 +38,9 @@ import { LoadingComponent } from './loading/loading.component';
 import { FireStoreService } from './services/firestore.service';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CoursesComponent } from './courses/courses.component';
-
+import { NotificationComponent } from './notification/notification.component';
+import { NgxCaptchaModule } from 'ngx-captcha';
+import { VideoComponent } from './video/video.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -107,7 +109,9 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     PaymentComponent,
     LoadingComponent,
     PageNotFoundComponent,
-    CoursesComponent
+    CoursesComponent,
+    NotificationComponent,
+    VideoComponent
   ],
   imports: [
     BrowserModule,
@@ -119,6 +123,9 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     FormsModule,
     MsalModule,
+    ReactiveFormsModule,
+    NgxCaptchaModule
+
   ],
   providers: [
     {
