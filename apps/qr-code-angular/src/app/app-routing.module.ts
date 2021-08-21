@@ -19,15 +19,15 @@ const routes: Routes = [
 { path: '', component: HomeComponent },
 { path: 'home', component: HomeComponent },
 { path: 'login', component: LoginComponent},
-{ path: 'loggedin', component: LoggedinComponent },
+{ path: 'loggedin', component: LoggedinComponent, canActivate: [AuthGuardService] },
 { path: 'admin-login', component: AdminLoginComponent },
 { path: 'admin-users', component: AdminUsersComponent },
 { path: 'chat', component: CbChatComponent, canActivate: [AuthGuardService] },
 { path: 'create-chat', component: ChatCreateComponent, canActivate: [AuthGuardService]},
 { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
 { path: 'animation', component: AboutMeComponent, canActivate: [AuthGuardService]},
-{ path: 'payment', component: PaymentComponent},
-{ path: 'courses', component: CoursesComponent},
+{ path: 'payment', component: PaymentComponent, canActivate: [AuthGuardService]},
+{ path: 'courses', component: CoursesComponent, canActivate: [AuthGuardService]},
 { path: '**', component: PageNotFoundComponent}]
 
 

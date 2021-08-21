@@ -1,19 +1,22 @@
- <app-loading>
-  <form (submit)="handleForm($event)">
+<app-top-logggedin-header></app-top-logggedin-header>
+<app-loading>
+<div class="payment" > 
 
 
-    <div #cardElement>
-    </div>
-  
-  
-    <!-- Used to display Element errors. -->
-    <p>{{ cardErrors }}</p>
-  <button [disabled]="ifdisabled">checkout</button>
-  </form>
-  
-   <div *ngIf="confirmation">
-    <h1>hello</h1>
-   </div>
+  <div #cardElement>
+  </div>
+
+
+  <!-- Used to display Element errors. -->
+  <p>{{ cardErrors }}</p>
+<button (click)="handleForm($event)" [disabled]="buttonDisabled">checkout</button>
+
+ <div *ngIf="confirmation">
+  <h1>hello</h1>
+ </div>
+  <p>{{element}}</p>
+</div>
+
 
 </app-loading>
 

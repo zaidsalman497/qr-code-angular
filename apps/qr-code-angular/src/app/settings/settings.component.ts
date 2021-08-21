@@ -21,6 +21,5 @@ export class SettingsComponent implements OnInit {
 
   signOut(): void {
     this.auth.signOut();
-    this.msalservice.logout();
   }
 }
