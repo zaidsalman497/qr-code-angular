@@ -1,6 +1,6 @@
 <app-top-logggedin-header></app-top-logggedin-header>
 <app-loading>
-<div class="payment" > 
+<div class="payment" *ngIf="!notConfirmed"> 
 
 
   <div #cardElement>
@@ -17,6 +17,8 @@
   <p>{{element}}</p>
 </div>
 
-
+<div *ngIf="loading">
+  <app-loading></app-loading>
+</div>
 </app-loading>
 

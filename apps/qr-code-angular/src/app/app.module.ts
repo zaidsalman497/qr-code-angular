@@ -41,6 +41,7 @@ import { CoursesComponent } from './courses/courses.component';
 import { NotificationComponent } from './notification/notification.component';
 import { NgxCaptchaModule } from 'ngx-captcha';
 import { VideoComponent } from './video/video.component';
+import { HttpClientModule } from '@angular/common/http';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -114,6 +115,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     VideoComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebase),
