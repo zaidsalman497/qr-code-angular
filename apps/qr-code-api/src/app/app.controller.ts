@@ -9,6 +9,6 @@ export class AppController {
 
   @Post('checkout')
   async checkout(@Body() body: StripBody): Promise<Stripe.Checkout.Session> {
-    return createStripeCheckoutSession(body);
+    return createStripeCheckoutSession(body)
   }
 }
