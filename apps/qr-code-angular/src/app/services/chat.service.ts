@@ -69,7 +69,7 @@ export class ChatService {
     );
   }
 
-  public async create(name?: string, iconPath?: string): Promise<boolean> {
+  public async create(name?: any, iconPath?: string): Promise<boolean> {
     const { uid } = await this.auth.getUser();
 
     const data = {
@@ -123,7 +123,8 @@ export class ChatService {
      });
   }
 
-  public joinUsers(chat$: Observable<any>): Observable<any> {
+  public joinUsers(chat$: Observable<any>
+    ): Observable<any> {
     let chat: any;
     const joinKeys: any = {};
 
@@ -151,11 +152,14 @@ export class ChatService {
     );
   }
 
-  public async enter(uid: any): Promise<void> {
-    if (uid === undefined) {
-      alert('id does not exites');
-    } else {
-      window.location.href = '/chats/' + uid;
+  public async privatechat(id: string) {
+    const { displayName } = (await this.auth.getUser())
+    const { photoURL } =  (await this.auth.getUser())
+    const {uid} = (await this.auth.getUser())
+    const data = {
+      displayName,
+      photoURL
     }
+      this.create(data, uid)
   }
 }

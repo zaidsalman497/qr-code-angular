@@ -4,6 +4,7 @@ import {
   Component,
   ElementRef,
   Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 
@@ -27,7 +28,7 @@ import stripe from 'stripe';
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css'],
 })
-export class PaymentComponent implements AfterViewInit {
+export class PaymentComponent implements AfterViewInit, OnInit {
   constructor(private auth: AuthService, private http: HttpClient) {}
 
   @Input() amount!: number;
@@ -49,7 +50,12 @@ export class PaymentComponent implements AfterViewInit {
   confirmation = false;
   buttonDisabled = true;
   stripe!: Stripe | null;
+  details!: any
 
+  async ngOnInit() {
+    const user = await this.auth.getUser()
+    this.fs?.getFromFirestore('paid', user.uid)
+  }
   public async ngAfterViewInit(): Promise<void> {
     this.stripe = await loadStripe(
       'pk_test_51J9MZbJ6E4w7cr4J7bYyZ67szJypiNxIRbJ7U3WtEsjS5mEM1juyVNZLxd4T7ZqBd1H85hxoyp56uHvLg5JMVz6900Zn3nO6tp'
@@ -57,6 +63,7 @@ export class PaymentComponent implements AfterViewInit {
     const elements = this.stripe?.elements();
   
     this.card = elements?.create('card')
+  
 
     this.card.mount(this.cardElement.nativeElement);
     this.card.addEventListener('change', (result: any) => {
@@ -79,15 +86,19 @@ export class PaymentComponent implements AfterViewInit {
       },
       quantity: 1,
     };
-    const source = await this.stripe?.createSource(this.card);
+    const user = await this.auth.getUser()
+    const source = await this.stripe?.createSource(this.card, {
+        type: this.card
+    });
     if (source?.error) {
       this.loading = false;
       // Inform the customer that there was an error.
       this.element = 'sorry we could not confirm your payment'
-      this.confirmation = false;
+      this.basic()
       this.buttonDisabled = true;
     } else {
       this.loading = false;
+      this.addfirestore();
       this.element = ''
       this.http
         .post('http://localhost:3333/api/checkout',  { item })
@@ -101,25 +112,30 @@ export class PaymentComponent implements AfterViewInit {
             this.errorElem()
           }
         );
-
-      // Send the token to your server.
-      if (source?.source?.status === 'chargeable') {
-        this.confirmation = true;
-        this.element = 'you did a seccussful payment';
-        this.notification = true;
-      } else if (source?.source?.status === 'failed') {
-        this.confirmation = false;
-        this.element = 'sorry your card have been declined';
-      } else if (source?.source?.status === 'pending') {
-        this.confirmation = false;
-        this.element = 'your card is still pending';
-      } else if (source?.source?.status === 'canceled') {
-        this.confirmation = false
-      }
-    }
+       this.pro()
+       this.details = source
+        }
   }
   async cardInvalid(): Promise<void> {}
   async errorElem() {
     this.element = 'sorry your payment failed';
+  }
+ async pro() {
+    const user = await this.auth.getUser()
+    this.fs?.saveToFirestore('paid', user.uid, {active: 'active', email: user.email, displayName: user.displayName})
+    this.confirmation = true
+    this.element = 'welcome ' + user.displayName + ' to Zaid Pro'
+  }
+  async basic() {
+    const user = await this.auth.getUser()
+    this.fs?.removeFromFirestore('paid', user.uid)
+    this.confirmation = false
+    this.element = ''
+    
+  }
+  async addfirestore() {
+    const user = await this.auth.getUser()
+    const source = await this.stripe?.createSource(this.card);
+    this.fs?.saveToFirestore('paid', user.uid, {displayName: user.displayName, card: source?.source?.card})
   }
 }

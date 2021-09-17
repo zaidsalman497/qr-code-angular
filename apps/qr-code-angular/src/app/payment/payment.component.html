@@ -1,24 +1,26 @@
 <app-top-logggedin-header></app-top-logggedin-header>
+<div class="paid">
 <app-loading>
-<div class="payment" *ngIf="!notConfirmed"> 
-
-
-  <div #cardElement>
+<div class="payment" *ngIf="!confirmation"> 
+  <div #cardElement class="any">
   </div>
 
 
   <!-- Used to display Element errors. -->
   <p>{{ cardErrors }}</p>
-<button (click)="handleForm($event)" id="checkout">checkout</button>
+<button (click)="handleForm($event)" id="checkout" [disabled]="buttonDisabled">checkout</button>
 
- <div *ngIf="confirmation">
-  <h1>hello</h1>
- </div>
-  <p>{{element}}</p>
+ 
 </div>
+<p>{{element}}</p>
 
+<div *ngIf="confirmation">
+  <h1>hello</h1>
+  <pre>{{details | json}}</pre>
+ </div>
 <div *ngIf="loading">
   <app-loading></app-loading>
+
 </div>
 </app-loading>
-
+</div>

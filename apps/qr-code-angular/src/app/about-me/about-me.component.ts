@@ -32,11 +32,11 @@ export class AboutMeComponent implements OnInit {
     
     renderer.render( scene, camera );
     
-     const geometry = new THREE.TorusGeometry( 10, 3, 16, 100 )
-     const material = new THREE.MeshStandardMaterial( { color: 0xFF634 } );
-     const torus = new THREE.Mesh( geometry, material )
+     const geometry = new THREE.SphereGeometry( 10, 3, 16, 100 )
+     const material = new THREE.MeshBasicMaterial( { color: 0xFF634 } );
+     const sphere = new THREE.Mesh( geometry, material )
   
-     scene.add(torus)
+     scene.add(sphere)
      
      const pointLight = new THREE.PointLight(0xffffff)
      const ambientLight = new THREE.AmbientLight(0xffffff)
@@ -85,7 +85,7 @@ const moon = new THREE.Mesh(
 );
 
 const sun = new THREE.Mesh(
-  new THREE.SphereGeometry(3, 32, 32),
+  new THREE.SphereGeometry(15, 32, 16),
   new THREE.MeshStandardMaterial({
     map: sunTexture,
     normalMap: normalTexture,
@@ -107,9 +107,9 @@ zaid.position.x = 2;
      function animate() {
       requestAnimationFrame(animate);
     
-      torus.rotation.x += 0.01;
-      torus.rotation.y += 0.005;
-      torus.rotation.z += 0.01;
+      sphere.rotation.x += 0.01;
+      sphere.rotation.y += 0.005;
+      sphere.rotation.z += 0.01;
     
       moon.rotation.x += 0.005;
     
