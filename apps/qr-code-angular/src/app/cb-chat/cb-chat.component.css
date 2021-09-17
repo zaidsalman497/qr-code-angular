@@ -243,3 +243,7 @@ margin-bottom: 15px !important;
 .name {
   position: absolute;
 }
+
+.btn {
+    margin-right: 0.5%;
+  }
