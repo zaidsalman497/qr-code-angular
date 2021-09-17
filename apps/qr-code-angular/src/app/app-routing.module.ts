@@ -15,6 +15,7 @@ import { AboutMeComponent } from './about-me/about-me.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CreatechatComponent } from './createchat/createchat.component';
+import { VideoChatComponent } from './video-chat/video-chat.component';
 
 const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
 { path: 'admin-users', component: AdminUsersComponent },
 { path: 'chat', component: CbChatComponent, canActivate: [AuthGuardService] },
 { path: 'create-chat', component: ChatCreateComponent, canActivate: [AuthGuardService]},
+{ path: 'video', component: VideoChatComponent, canActivate: [AuthGuardService] },
 { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
 { path: 'animation', component: AboutMeComponent, canActivate: [AuthGuardService]},
 { path: 'payment', component: PaymentComponent, canActivate: [AuthGuardService]},

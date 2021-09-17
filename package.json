@@ -69,6 +69,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "~6.6.0",
     "should": "^13.2.3",
+    "socket.io-client": "^4.2.0",
     "stripe": "^8.160.0",
     "supertest": "^6.0.1",
     "three": "^0.130.0",
