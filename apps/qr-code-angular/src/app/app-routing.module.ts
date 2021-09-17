@@ -18,13 +18,13 @@ import { CreatechatComponent } from './createchat/createchat.component';
 
 const routes: Routes = [
 { path: '', component: HomeComponent },
-{ path: 'home', component: HomeComponent },
+{ path: 'home', component: HomeComponent },f
 { path: 'login', component: LoginComponent},
 { path: 'loggedin', component: LoggedinComponent, canActivate: [AuthGuardService] },
 { path: 'admin-login', component: AdminLoginComponent },
 { path: 'admin-users', component: AdminUsersComponent },
 { path: 'create-chat', component: ChatCreateComponent, canActivate: [AuthGuardService]},
-{ path: 'chat/:id', component: CbChatComponent, canActivate: [AuthGuardService] },
+{ path: 'chat', component: CbChatComponent, canActivate: [AuthGuardService] },
 { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
 { path: 'animation', component: AboutMeComponent, canActivate: [AuthGuardService]},
 { path: 'payment', component: PaymentComponent, canActivate: [AuthGuardService]},
