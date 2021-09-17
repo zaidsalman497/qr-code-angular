@@ -14,11 +14,12 @@ import { SettingsComponent } from './settings/settings.component';
 import { AboutMeComponent } from './about-me/about-me.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { CreatechatComponent } from './createchat/createchat.component';
+import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
+
 
 const routes: Routes = [
 { path: '', component: HomeComponent },
-{ path: 'home', component: HomeComponent },f
+{ path: 'home', component: HomeComponent },
 { path: 'login', component: LoginComponent},
 { path: 'loggedin', component: LoggedinComponent, canActivate: [AuthGuardService] },
 { path: 'admin-login', component: AdminLoginComponent },
@@ -29,7 +30,7 @@ const routes: Routes = [
 { path: 'animation', component: AboutMeComponent, canActivate: [AuthGuardService]},
 { path: 'payment', component: PaymentComponent, canActivate: [AuthGuardService]},
 { path: 'courses', component: CoursesComponent, canActivate: [AuthGuardService]},
-{path: 'createchat', component: CreatechatComponent},
+{path: 'create-private-chat', component: CreatePrivateChatComponent},
 { path: '**', component: PageNotFoundComponent}]
 
 

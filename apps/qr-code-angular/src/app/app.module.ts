@@ -43,7 +43,7 @@ import { NgxCaptchaModule } from 'ngx-captcha';
 import { VideoComponent } from './video/video.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VideoChatComponent } from './video-chat/video-chat.component';
-import { CreatechatComponent } from './createchat/createchat.component';
+import { CreatePrivateChatComponent } from './create-private-chat/create-private-chat.component';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -116,7 +116,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     NotificationComponent,
     VideoComponent,
     VideoChatComponent,
-    CreatechatComponent
+    CreatePrivateChatComponent
   ],
   imports: [
     HttpClientModule,
