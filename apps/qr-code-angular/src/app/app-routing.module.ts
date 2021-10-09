@@ -16,6 +16,7 @@ import { PaymentComponent } from './payment/payment.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { CreatechatComponent } from './createchat/createchat.component';
 import { VideoChatComponent } from './video-chat/video-chat.component';
+import { NewPaymentComponent } from './new-payment/new-payment.component';
 
 const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -30,6 +31,7 @@ const routes: Routes = [
 { path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]},
 { path: 'animation', component: AboutMeComponent, canActivate: [AuthGuardService]},
 { path: 'payment', component: PaymentComponent, canActivate: [AuthGuardService]},
+{ path: 'payment-new', component: NewPaymentComponent, canActivate: [AuthGuardService]},
 { path: 'courses', component: CoursesComponent, canActivate: [AuthGuardService]},
 {path: 'createchat', component: CreatechatComponent},
 { path: '**', component: PageNotFoundComponent}]

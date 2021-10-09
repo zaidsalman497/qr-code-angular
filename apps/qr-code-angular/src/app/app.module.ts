@@ -44,6 +44,8 @@ import { VideoComponent } from './video/video.component';
 import { HttpClientModule } from '@angular/common/http';
 import { VideoChatComponent } from './video-chat/video-chat.component';
 import { CreatechatComponent } from './createchat/createchat.component';
+import { NewPaymentComponent } from './new-payment/new-payment.component';
+import { NgxStripeModule } from 'ngx-stripe';
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
@@ -116,12 +118,14 @@ export function MSALInstanceFactory(): IPublicClientApplication {
     NotificationComponent,
     VideoComponent,
     VideoChatComponent,
-    CreatechatComponent
+    CreatechatComponent,
+    NewPaymentComponent
   ],
   imports: [
     HttpClientModule,
     BrowserModule,
     AppRoutingModule,
+    NgxStripeModule.forRoot('pk_test_51J9MZbJ6E4w7cr4J7bYyZ67szJypiNxIRbJ7U3WtEsjS5mEM1juyVNZLxd4T7ZqBd1H85hxoyp56uHvLg5JMVz6900Zn3nO6tp'),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
