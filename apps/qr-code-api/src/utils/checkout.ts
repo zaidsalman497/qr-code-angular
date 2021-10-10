@@ -24,10 +24,26 @@ export async function createStripeCheckoutSession(
     mode: 'subscription',
     payment_method_types: ['card'],
     line_items: [body.item],
-    success_url: `${url}/payment?success={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${url}/payment?failed=true`,
+    success_url: `${window.location.href}/payment?success={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${window.location.href}/payment?failed=true`,
   });
-
   console.log('server session', session);
   return session;
+}
+
+export async function createcustomer(
+  body: StripBody,
+  token: string
+): Promise<Stripe.Customer| void> {
+  const stripe = new Stripe(
+    environment.stripeSecureKey,
+    environment.stripConfig
+  );
+
+
+  const customer = await stripe.customers.create({
+    email: body.item.name,
+    source: token,
+  });
+  console.log('result', customer);
 }

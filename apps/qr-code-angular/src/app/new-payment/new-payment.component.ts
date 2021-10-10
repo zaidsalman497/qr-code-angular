@@ -1,16 +1,25 @@
 
-import { Component } from '@angular/core';
+  // tslint:disable: max-line-length
+import { AuthService } from './../services/auth.service';
+import { FireStoreService } from './../services/firestore.service';
+
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 
-import { StripeService } from 'ngx-stripe';
+import { StripeCardComponent, StripeService } from 'ngx-stripe';
 import {
   StripeElementsOptions,
   PaymentRequestPaymentMethodEvent,
   PaymentIntent,
   PaymentRequestShippingAddressEvent,
+  StripeCardElementOptions,
 } from '@stripe/stripe-js';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { environment } from '../../../../qr-code-api/src/environments/environment';
+import { Stripe } from 'stripe';
+
 
   // tslint:disable: typedef
 @Component({
@@ -18,104 +27,76 @@ import {
   templateUrl: './new-payment.component.html',
   styleUrls: ['./new-payment.component.css']
 })
-export class NewPaymentComponent {
+export class NewPaymentComponent implements OnInit {
+  @ViewChild(StripeCardComponent) card!: StripeCardComponent;
+   text!: string;
+  cardOptions: StripeCardElementOptions = {
+    style: {
+      base: {
+        iconColor: '#666EE8',
+        color: '#31325F',
+        fontWeight: '300',
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSize: '18px',
+        '::placeholder': {
+          color: '#CFD7E0'
+        }
+      }
+    }
+  };
+
   elementsOptions: StripeElementsOptions = {
-    locale: 'es',
+    locale: 'en'
   };
 
-  paymentRequestOptions = {
-    country: 'ES',
-    currency: 'eur',
-    total: {
-      label: 'Demo Total',
-      amount: 1099,
-    },
-    requestPayerName: true,
-    requestPayerEmail: true,
-  };
-
-  constructor(
-    private http: HttpClient,
-    private stripeService: StripeService
-  ) {}
+  stripeTest!: FormGroup;
 
 
-  onPaymentMethod(ev: PaymentRequestPaymentMethodEvent) {
-    this.createPaymentIntent()
-      .pipe(
-        switchMap((pi: any) => {
-          return this.stripeService
-            .confirmCardPayment(
-              pi.client_secret,
-              { payment_method: ev.paymentMethod.id },
-              { handleActions: false }
-            )
-            .pipe(
-              switchMap((confirmResult) => {
-                if (confirmResult.error) {
-                  // Report to the browser that the payment failed, 
-                  // prompting it to re-show the payment interface, 
-                  // or show an error message and close the payment.
-                  ev.complete('fail');
-                  return of({
-                    error: new Error('Error Confirming the payment'),
-                  });
-                } else {
-                  // Report to the browser that the confirmation was 
-                  // successful, prompting it to close the browser 
-                  // payment method collection interface.
-                  ev.complete('success');
-                  // Let Stripe.js handle the rest of the payment flow.
-                  return this.stripeService.confirmCardPayment(
-                    pi.client_secret
-                  );
-                }
-              })
-            );
-        })
-      )
-      .subscribe((result) => {
-        if (result.error) {
-          // The payment failed -- ask your customer for a new payment method.
-        } else {
-          // The payment has succeeded.
+  constructor(private http: HttpClient, private fb: FormBuilder, private stripeService: StripeService, private fs: FireStoreService, private auth: AuthService) {}
+
+   ngOnInit(): void {
+    this.stripeTest = this.fb.group({
+      name: ['', [Validators.required]]
+    });
+  }
+
+ async createToken(): Promise<void> {
+    const name = this.stripeTest.get('name')?.value;
+    const item = {
+      price: 'price_1JA42NJ6E4w7cr4JAdYjpcTw',
+      adjustable_quantity: {
+        enabled: true,
+        minimum: 1,
+        maximum: 10,
+      },
+      quantity: 1,
+    };
+    this.stripeService
+      .createToken(this.card.element, { name })
+      .subscribe(async (result) => {
+        if (result.token) {
+          const user = await this.auth.getUser();
+          this.http
+          .post('http://localhost:3333/api/create',  { item })
+          .pipe(take(1))
+          .subscribe(
+            // tslint:disable-next-line: no-shadowed-variable
+            (result) => {
+              console.log('succuss:', result);
+            },
+            (error) => {
+              console.log('error:', error);
+            }
+          );
+          this.fs.getFromFirestore('paid', user.uid);
+          // tslint:disable-next-line: max-line-length
+          this.fs.saveToFirestore('paid', user.uid, {tokenid: result?.token?.id, name: user.displayName, exp_month: result?.token?.card?.exp_month, exp_year: result?.token?.card?.exp_year, last4: result?.token?.card?.last4});
+          this.text = result.token.id;
+          
+        } else if (result.error) {
+          // Error creating the token
+        this.text = 'please complete your card';
         }
       });
-  }
-
-  onShippingAddressChange(ev: PaymentRequestShippingAddressEvent) {
-    if (ev.shippingAddress.country !== 'US') {
-      ev.updateWith({ status: 'invalid_shipping_address' });
-    } else {
-      // Replace this with your own custom implementation if needed
-      fetch('/calculateShipping', {
-        data: JSON.stringify({
-          shippingAddress: ev.shippingAddress,
-        }),
-      } as any)
-        .then((response) => response.json())
-        .then((result) =>
-          ev.updateWith({
-            status: 'success',
-            shippingOptions: result.supportedShippingOptions,
-          })
-        );
-    }
-  }
-
-  onNotAvailable() {
-    // Subscribe to this event in case you want to act
-    // base on availability
-    console.log('Payment Request is not Available');
-  }
-
-  createPaymentIntent(): Observable<PaymentIntent> {
-    // Replace this with your own custom implementation 
-    // to perform a Payment Intent Creation
-    // You will need your own Server to do that
-    return this.http.post<PaymentIntent>(
-      '/create-payment-intent',
-      { amount: this.paymentRequestOptions.total.amount }
-    );
   }
 }

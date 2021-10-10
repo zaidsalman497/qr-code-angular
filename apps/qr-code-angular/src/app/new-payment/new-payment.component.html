@@ -1,10 +1,12 @@
 <app-top-logggedin-header></app-top-logggedin-header>
 <app-loading>
-    <h2>Payment Request Button</h2>
-<ngx-stripe-payment-request-button
-  [paymentOptions]="paymentRequestOptions"
-  (paymentMethod)="onPaymentMethod($event)"
-  (shippingaddresschange)="onShippingAddressChange($event)"
-  (notavailable)="onNotAvailable()"
-></ngx-stripe-payment-request-button>
+    <h2>Create Token Example</h2>
+    <ngx-stripe-card
+      [options]="cardOptions"
+      [elementsOptions]="elementsOptions"
+    ></ngx-stripe-card>
+    <button type="submit" (click)="createToken()">
+      CREATE TOKEN
+    </button>
+    <h2>{{text}}</h2>    
 </app-loading>

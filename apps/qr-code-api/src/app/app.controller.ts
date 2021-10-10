@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { createStripeCheckoutSession, StripBody } from '../utils/checkout';
+import { createcustomer, createStripeCheckoutSession, StripBody } from '../utils/checkout';
 import Stripe from 'stripe';
 import { AppService } from './app.service';
 
@@ -9,6 +9,10 @@ export class AppController {
 
   @Post('checkout')
   async checkout(@Body() body: StripBody): Promise<Stripe.Checkout.Session> {
-    return createStripeCheckoutSession(body)
+    return createStripeCheckoutSession(body);
+  }
+  @Post('create')
+  async customer(@Body() body: StripBody, token: string): Promise<Stripe.Customer| void> {
+    createcustomer(body, token);
   }
 }
