@@ -46,7 +46,6 @@ import { VideoChatComponent } from './video-chat/video-chat.component';
 import { CreatechatComponent } from './createchat/createchat.component';
 import { NewPaymentComponent } from './new-payment/new-payment.component';
 import { NgxStripeModule } from 'ngx-stripe';
-
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: 'popup',
   signInOptions: [

@@ -77,7 +77,7 @@ export class NewPaymentComponent implements OnInit {
         if (result.token) {
           const user = await this.auth.getUser();
           this.http
-          .post('http://localhost:3333/api/create',  { item })
+          .post('http://localhost:3333/api/create',  {  email: user.email, token: result.token.id, item: item })
           .pipe(take(1))
           .subscribe(
             // tslint:disable-next-line: no-shadowed-variable
