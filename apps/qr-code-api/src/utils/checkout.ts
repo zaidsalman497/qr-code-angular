@@ -1,3 +1,4 @@
+import { User } from './../../../qr-code-angular/src/app/services/user.model';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import Stripe from 'stripe';
 import { environment } from '../environments/environment';
@@ -16,8 +17,6 @@ export async function createStripeCheckoutSession(
     environment.stripeSecureKey,
     environment.stripConfig
   );
-
-  const url = 'https://zaid497.azurewebsites.net/';
 
   const session = await stripe.checkout.sessions.create({
     allow_promotion_codes: true,
@@ -40,9 +39,8 @@ export async function createcustomer(
     environment.stripConfig
   );
 
-
   const customer = await stripe.customers.create({
-    email: body.item.name,
+    email: ,
     source: token,
   });
   console.log('result', customer);
